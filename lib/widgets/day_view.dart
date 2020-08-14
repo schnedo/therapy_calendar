@@ -44,9 +44,9 @@ class DayView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text('$date'),
-                        Text('${item.batch.number}'),
-                        Text('${item.dose.count} x'
-                            '${item.dose.singleDose} ml'),
+                        Text('${item.medications}'),
+//                        Text('${item.dose.count} x'
+//                            '${item.dose.singleDose} ml'),
                       ],
                     ),
                   );

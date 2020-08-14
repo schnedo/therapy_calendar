@@ -5,12 +5,12 @@ part 'dose.g.dart';
 
 abstract class Dose implements Built<Dose, DoseBuilder> {
   factory Dose([void Function(DoseBuilder) updates]) = _$Dose;
-
   Dose._();
 
-  int get singleDose;
+  int get amount;
 
-  int get count;
+  @override
+  String toString() => '$amount ml';
 
   static Serializer<Dose> get serializer => _$doseSerializer;
 }
