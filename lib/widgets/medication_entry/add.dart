@@ -30,13 +30,23 @@ class AddMedicationEntry extends StatelessWidget {
                   child: const Text('Datum eingeben'),
                 ),
                 TextFormField(
+                  decoration: const InputDecoration(
+                      labelText: 'Medikamentenbezeichnung'),
+                  validator: (value) => value.isEmpty
+                      ? 'Bitte Medikamentenbezeichnung eingeben'
+                      : null,
+                  onSaved: (value) {
+                    //_builder.medication.name = value;
+                  },
+                ),
+                TextFormField(
                   decoration: const InputDecoration(labelText: 'Chargennummer'),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   validator: (value) =>
                       value.isEmpty ? 'Bitte Chargennummer eingeben' : null,
                   onSaved: (value) {
-                    _builder.batch.number = int.parse(value);
+                    // _builder.medication.batchNumber = int.parse(value);
                   },
                 ),
                 TextFormField(
@@ -46,7 +56,7 @@ class AddMedicationEntry extends StatelessWidget {
                   validator: (value) =>
                       value.isEmpty ? 'Bitte Einzeldosis eingeben' : null,
                   onSaved: (value) {
-                    _builder.dose.singleDose = int.parse(value);
+                    //_builder.dose.singleDose = int.parse(value);
                   },
                 ),
                 TextFormField(
@@ -57,7 +67,7 @@ class AddMedicationEntry extends StatelessWidget {
                   validator: (value) =>
                       value.isEmpty ? 'Bitte Anzahl Dosen eingeben' : null,
                   onSaved: (value) {
-                    _builder.dose.count = int.parse(value);
+                    //_builder.dose.count = int.parse(value);
                   },
                 ),
                 RaisedButton(

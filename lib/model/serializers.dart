@@ -1,16 +1,20 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
-import 'package:therapy_calendar/model/batch.dart';
+import 'package:therapy_calendar/model/batch_number.dart';
 import 'package:therapy_calendar/model/dose.dart';
+import 'package:therapy_calendar/model/medicament.dart';
+import 'package:therapy_calendar/model/medication.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
-  Batch,
+  Medication,
   MedicationEntry,
+  Medicament,
   Dose,
+  BatchNumber,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

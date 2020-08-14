@@ -1,7 +1,7 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:therapy_calendar/model/batch.dart';
-import 'package:therapy_calendar/model/dose.dart';
+import 'package:therapy_calendar/model/medication.dart';
 
 part 'medication_entry.g.dart';
 
@@ -14,9 +14,7 @@ abstract class MedicationEntry
 
   DateTime get date;
 
-  Batch get batch;
-
-  Dose get dose;
+  BuiltList<Medication> get medications;
 
   Duration get duration;
 
