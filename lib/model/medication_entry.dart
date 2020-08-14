@@ -18,6 +18,10 @@ abstract class MedicationEntry
 
   Dose get dose;
 
+  Duration get duration;
+
+  String get comments;
+
   static Serializer<MedicationEntry> get serializer =>
       _$medicationEntrySerializer;
 }

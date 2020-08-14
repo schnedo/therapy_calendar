@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:therapy_calendar/views/day_view.dart';
-import 'package:therapy_calendar/views/medication_entry/add.dart';
+import 'package:therapy_calendar/widgets/day_view.dart';
+import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
 class Routes {
   Routes({this.initialRoute, this.routes});

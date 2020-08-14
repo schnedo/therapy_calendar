@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
-import 'package:therapy_calendar/views/medication_entry/add.dart';
+import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
 class DayView extends StatelessWidget {
   static const routeName = '/';
