@@ -8,7 +8,7 @@ abstract class Dose implements Built<Dose, DoseBuilder> {
 
   Dose._();
 
-  double get singleDose;
+  int get singleDose;
 
   int get count;
 
