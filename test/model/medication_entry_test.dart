@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:therapy_calendar/model/batch_number.dart';
 import 'package:therapy_calendar/model/dose.dart';
 import 'package:therapy_calendar/model/medicament.dart';
@@ -25,3 +26,11 @@ MedicationEntry someEntry() => MedicationEntry((medication) => medication
   ..date = DateTime.now()
   ..duration = const Duration(hours: 2)
   ..comments = 'Einnahme 400 mg Paracetamol');
+
+void main() {
+  group('MedicationEntry', () {
+    test('should be true', () async {
+      expect(true, isTrue);
+    });
+  });
+}
