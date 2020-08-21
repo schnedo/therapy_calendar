@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
 
-extension Formatting on Duration {
+extension _Formatting on Duration {
   String get _hours =>
       (inMinutes ~/ Duration.minutesPerHour).toString().padLeft(2, '0');
   String get _minutes =>
