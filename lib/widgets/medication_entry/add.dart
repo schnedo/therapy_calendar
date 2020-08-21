@@ -5,7 +5,8 @@ import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 
 class AddMedicationEntry extends StatelessWidget {
-  static const routeName = '/medicationentry/add';
+  static const routeName = '/medication_entry/add';
+
   final _formKey = GlobalKey<FormState>();
   final _builder = MedicationEntryBuilder();
 
