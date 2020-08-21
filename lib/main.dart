@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:therapy_calendar/config/routes.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 
@@ -15,8 +13,6 @@ void main() {
 class TherapyCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Intl.defaultLocale = 'de_DE';
-    initializeDateFormatting();
     final routes = getRoutes();
 
     return BlocProvider(
