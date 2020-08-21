@@ -18,7 +18,6 @@ jobs:
         channel: 'dev'
     - run: flutter pub get
     - run: flutter pub run build_runner build
-    - run: flutter pub global list
     - run: flutter pub run intl_utils:generate
     - run: flutter analyze
     - run: flutter test
