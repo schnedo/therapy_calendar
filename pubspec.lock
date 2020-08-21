@@ -35,7 +35,7 @@ packages:
       name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.1"
+    version: "6.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.0"
+    version: "3.4.1"
   collection:
     dependency: transitive
     description:
@@ -244,13 +244,18 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.4"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_material_pickers:
     dependency: "direct main"
     description:
       name: flutter_material_pickers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.1"
+    version: "1.7.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -310,6 +315,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  intl_translation:
+    dependency: "direct main"
+    description:
+      name: intl_translation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.10"
   io:
     dependency: transitive
     description:
@@ -401,6 +413,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.2"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -421,7 +440,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.2"
+    version: "4.3.2+1"
   pub_semver:
     dependency: transitive
     description:

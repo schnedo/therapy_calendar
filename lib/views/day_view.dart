@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
+import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
@@ -11,7 +12,7 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Therapy Calendar')),
+        appBar: AppBar(title: Text(S.of(context).dayViewTitle)),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, AddMedicationEntry.routeName);

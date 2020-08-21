@@ -58,3 +58,14 @@ Variables:
     <dt>CLASS_NAME</dt><dd>capitalize(underscoresToCamelCase(regularExpression(fileName(), ".dart", "")))</dd><dd>skipIfDefined: false</dd>
     <dt>CAMEL_CLASS_NAME</dt><dd>camelCase(CLASS_NAME)</dd><dd>skipIfDefined: true</dd>
 </dl>
+
+## i18n and l10n
+
+We worked with the `Flutter Intl`-Plugin for IntelliJ which worked pretty well. If you want to try it without the plugin, you can try to run:
+
+```shell script
+flutter pub global list
+flutter pub global run intl_utils:generate
+```
+
+This should generate the files in `lib/generated`.
