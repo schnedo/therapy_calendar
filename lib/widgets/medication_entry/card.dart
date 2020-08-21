@@ -4,6 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
 
+extension Formatting on Duration {
+  String get _hours =>
+      (inMinutes ~/ Duration.minutesPerHour).toString().padLeft(2, '0');
+  String get _minutes =>
+      (inMinutes % Duration.minutesPerHour).toString().padLeft(2, '0');
+
+  String formatted() => '$_hours:$_minutes';
+}
+
 class MedicationEntryCard extends StatelessWidget {
   const MedicationEntryCard({@required this.entry, Key key}) : super(key: key);
 
@@ -25,6 +34,8 @@ class MedicationEntryCard extends StatelessWidget {
                       .map((med) => MedicationCard(medication: med))
                       .toList(),
                 ),
+                subtitle: Text(entry.comments),
+                trailing: Text(entry.duration.formatted()),
               ),
             ],
           ),
