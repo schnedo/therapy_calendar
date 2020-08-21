@@ -44,3 +44,6 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 **.g.dart
+
+# ignore the generated code for i18n and l10n
+lib/generated

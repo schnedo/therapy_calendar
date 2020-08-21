@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_calendar/config/routes.dart';
+import 'package:therapy_calendar/generated/l10n.dart';
 
 import 'bloc/medication_entry_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(TherapyCalendar());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class TherapyCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Intl.defaultLocale = 'de_DE';
@@ -21,6 +22,13 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => MedicationEntryBloc(),
       child: MaterialApp(
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         initialRoute: routes.initialRoute,
         routes: routes.routes,
         title: 'Flutter Demo',
