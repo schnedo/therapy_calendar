@@ -1,4 +1,7 @@
 {
   "@@locale": "en_US",
-  "dayViewTitle": "Therapy Calendar"
+  "dayViewTitle": "Therapy Calendar",
+  "dayViewDateHeader": "Date",
+  "dayViewMedicationHeader": "Medication",
+  "dayViewDurationHeader": "Duration"
 }
