@@ -32,5 +32,5 @@ flutter:
   uses-material-design: true
 
 flutter_intl:
-  main_locale: en_US
+  main_locale: de_DE
   enabled: true
