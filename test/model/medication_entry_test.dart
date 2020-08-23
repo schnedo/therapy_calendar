@@ -10,17 +10,15 @@ MedicationEntry someEntry() => MedicationEntry((medication) => medication
   ..medications = ListBuilder<Medication>([
     Medication(
       (b) => b
-        ..medicament = (MedicamentBuilder()
-          ..batchNumber = (BatchNumberBuilder()..number = 12345678)
-          ..name = 'Medikament')
-        ..dose = (DoseBuilder()..amount = 20),
+        ..medicament.name = 'Medikament'
+        ..medicament.batchNumber.number = 12345678
+        ..dose.amount = 20,
     ),
     Medication(
       (b) => b
-        ..medicament = (MedicamentBuilder()
-          ..batchNumber = (BatchNumberBuilder()..number = 12345678)
-          ..name = 'Medikament')
-        ..dose = (DoseBuilder()..amount = 20),
+        ..medicament.name = 'Medikament'
+        ..medicament.batchNumber.number = 12345678
+        ..dose.amount = 20,
     )
   ])
   ..date = DateTime.now()
