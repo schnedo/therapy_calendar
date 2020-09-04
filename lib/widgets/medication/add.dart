@@ -8,7 +8,9 @@ import 'package:therapy_calendar/widgets/medicament/add.dart';
 class AddMedicationFormField extends FormField<Medication> {
   AddMedicationFormField(
       {FormFieldSetter<Medication> onSaved, this.onChanged, Key key})
-      : super(
+      : assert(onSaved != null || onChanged != null,
+            'Either onChanged or onSaved have to be present'),
+        super(
             onSaved: onSaved,
             builder: (state) {
               final _AddMedicationFormFieldState formState = state;
