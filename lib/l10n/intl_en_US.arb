@@ -3,5 +3,19 @@
   "dayViewTitle": "Therapy Calendar",
   "dayViewDateHeader": "Date",
   "dayViewMedicationHeader": "Medication",
-  "dayViewDurationHeader": "Duration"
+  "dayViewDurationHeader": "Duration",
+  "addBatchNumberLabel": "Batch Number",
+  "addBatchNumberInvalidValidation": "Please enter batch number",
+  "addDoseLabel": "Dose",
+  "addDoseInvalidValidation": "Please enter the dose",
+  "addMedicationEntryDateButton": "Enter date",
+  "addMedicamentNameLabel": "Name of Medicament",
+  "addMedicamentNameInvalidValidation": "Please enter the name of medicament",
+  "addMedicationEntryCommentsLabel": "Comments",
+  "addMedicationEntryDurationLabel": "Duration",
+  "addMedicationEntryDurationTimePickerHelpText": "Duration",
+  "addMedicationEntryDurationTimePickerConfirmText": "Submit",
+  "addMedicationEntryDurationTimePickerCancelText": "Cancel",
+  "addMedicationEntryViewTitle": "New Entry",
+  "addMedicationEntryViewSubmitButton": "Submit"
 }

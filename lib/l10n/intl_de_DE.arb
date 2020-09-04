@@ -3,5 +3,19 @@
   "dayViewTitle": "Therapie Kalender",
   "dayViewDateHeader": "Datum",
   "dayViewMedicationHeader": "Medikation",
-  "dayViewDurationHeader": "Dauer"
+  "dayViewDurationHeader": "Dauer",
+  "addBatchNumberLabel": "Chargennummer",
+  "addBatchNumberInvalidValidation": "Bitte Chargennummer eingeben",
+  "addDoseLabel": "Dosis",
+  "addDoseInvalidValidation": "Bitte Dosis angeben",
+  "addMedicationEntryDateButton": "Datum eingeben",
+  "addMedicamentNameLabel": "Medikamentenbezeichnung",
+  "addMedicamentNameInvalidValidation": "Bitte Medikamentenbezeichnung eingeben",
+  "addMedicationEntryCommentsLabel": "Kommentare",
+  "addMedicationEntryDurationLabel": "Dauer",
+  "addMedicationEntryDurationTimePickerHelpText": "Dauer",
+  "addMedicationEntryDurationTimePickerConfirmText": "Übernehmen",
+  "addMedicationEntryDurationTimePickerCancelText": "Abbrechen",
+  "addMedicationEntryViewTitle": "Neuer Eintrag",
+  "addMedicationEntryViewSubmitButton": "Übernehmen"
 }

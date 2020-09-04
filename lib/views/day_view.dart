@@ -1,36 +1,11 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
-import 'package:therapy_calendar/model/batch_number.dart';
-import 'package:therapy_calendar/model/dose.dart';
-import 'package:therapy_calendar/model/medicament.dart';
-import 'package:therapy_calendar/model/medication.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/views/add_medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/card.dart';
-
-MedicationEntry _someEntry() => MedicationEntry((medication) => medication
-  ..medications = ListBuilder<Medication>([
-    Medication(
-      (b) => b
-        ..medicament = (MedicamentBuilder()
-          ..batchNumber = (BatchNumberBuilder()..number = 12345678)
-          ..name = 'Medikament')
-        ..dose = (DoseBuilder()..amount = 20),
-    ),
-    Medication(
-      (b) => b
-        ..medicament = (MedicamentBuilder()
-          ..batchNumber = (BatchNumberBuilder()..number = 12345678)
-          ..name = 'Medikament')
-        ..dose = (DoseBuilder()..amount = 20),
-    )
-  ])
-  ..date = DateTime.now()
-  ..duration = const Duration(hours: 2)
-  ..comments = 'Einnahme 400 mg Paracetamol');
 
 class DayView extends StatelessWidget {
   static const routeName = '/';
@@ -40,8 +15,7 @@ class DayView extends StatelessWidget {
         appBar: AppBar(title: Text(S.of(context).dayViewTitle)),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            context.bloc<MedicationEntryBloc>().add(_someEntry());
-//            Navigator.pushNamed(context, AddMedicationEntry.routeName);
+            Navigator.pushNamed(context, AddMedicationEntry.routeName);
           },
           child: const Icon(Icons.add),
         ),
