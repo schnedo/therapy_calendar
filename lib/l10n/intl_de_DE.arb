@@ -15,8 +15,8 @@
   "addMedicationEntryCommentsLabel": "Kommentare",
   "addMedicationEntryDurationLabel": "Dauer",
   "addMedicationEntryDurationTimePickerHelpText": "Dauer",
-  "addMedicationEntryDurationTimePickerConfirmText": "Übernehmen",
-  "addMedicationEntryDurationTimePickerCancelText": "Abbrechen",
+  "addMedicationEntryPickerConfirmText": "Übernehmen",
+  "addMedicationEntryPickerCancelText": "Abbrechen",
   "addMedicationEntryViewTitle": "Neuer Eintrag",
   "addMedicationEntryViewSubmitButton": "Übernehmen"
 }

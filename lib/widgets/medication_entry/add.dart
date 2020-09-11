@@ -26,6 +26,10 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     GestureDetector(
                       onTap: () {
                         Picker(
+                          cancelText:
+                              S.of(context).addMedicationEntryPickerCancelText,
+                          confirmText:
+                              S.of(context).addMedicationEntryPickerConfirmText,
                           adapter: DateTimePickerAdapter(
                             value: formState._builder.date,
                             maxValue: DateTime.now(),
@@ -49,12 +53,10 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     GestureDetector(
                       onTap: () {
                         Picker(
-                          cancelText: S
-                              .of(context)
-                              .addMedicationEntryDurationTimePickerCancelText,
-                          confirmText: S
-                              .of(context)
-                              .addMedicationEntryDurationTimePickerConfirmText,
+                          cancelText:
+                              S.of(context).addMedicationEntryPickerCancelText,
+                          confirmText:
+                              S.of(context).addMedicationEntryPickerConfirmText,
                           looping: true,
                           magnification: 2,
                           squeeze: 0.9,
