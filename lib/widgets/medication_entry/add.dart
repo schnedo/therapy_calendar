@@ -62,13 +62,13 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           squeeze: 0.9,
                           adapter: NumberPickerAdapter(data: [
                             NumberPickerColumn(
-                              initValue: formState._hours,
+                              initValue: formState._builder.duration.hours,
                               begin: 0,
                               end: 24,
                               onFormatValue: _formatValue,
                             ),
                             NumberPickerColumn(
-                              initValue: formState._minutes,
+                              initValue: formState._builder.duration.minutes,
                               begin: 0,
                               end: 59,
                               jump: stepSize,
@@ -88,10 +88,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           title: Text(
                               S.of(context).addMedicationEntryDurationLabel),
                           onConfirm: (picker, selecteds) {
-                            formState
-                              .._hours = selecteds[0]
-                              .._minutes = selecteds[1] * stepSize
-                              ..durationChanged();
+                            formState.durationChanged(
+                                selecteds[0], selecteds[1]);
                           },
                         ).showModal(context);
                       },
@@ -128,12 +126,16 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
       _AddMedicationEntryFormFieldState();
 }
 
+extension _AbsoluteUnits on Duration {
+  int get hours => inMinutes ~/ Duration.minutesPerHour;
+  int get minutes => inMinutes % Duration.minutesPerHour;
+}
+
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
   final MedicationEntryBuilder _builder = MedicationEntryBuilder()
-    ..date = DateTime.now();
-  int _hours = 1;
-  int _minutes = 0;
+    ..date = DateTime.now()
+    ..duration = const Duration(hours: 1, minutes: 0);
 
   String get _date => DateFormat.yMd().format(_builder.date);
 
@@ -143,8 +145,8 @@ class _AddMedicationEntryFormFieldState
   @override
   void initState() {
     _dateController.text = _date;
-    _durationController.text =
-        '${_formatValue(_hours)}:${_formatValue(_minutes)}';
+    _durationController.text = '${_formatValue(_builder.duration.hours)}'
+        ':${_formatValue(_builder.duration.minutes)}';
     super.initState();
   }
 
@@ -164,11 +166,11 @@ class _AddMedicationEntryFormFieldState
     _changed();
   }
 
-  void durationChanged() {
-    final duration = Duration(hours: _hours, minutes: _minutes);
+  void durationChanged(int hours, int minutes) {
+    final duration = Duration(hours: hours, minutes: minutes);
     _builder.duration = duration;
     _durationController.text =
-        '${_formatValue(_hours)}:${_formatValue(_minutes)}';
+        '${_formatValue(hours)}:${_formatValue(minutes)}';
     _changed();
   }
 
