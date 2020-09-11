@@ -7,6 +7,8 @@ import 'package:therapy_calendar/model/medication.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
 
+String _formatValue(num number) => number.toString().padLeft(2, '0');
+
 class AddMedicationEntryFormField extends FormField<MedicationEntry> {
   AddMedicationEntryFormField(
       {this.onChanged, FormFieldSetter<MedicationEntry> onSaved, Key key})
@@ -21,8 +23,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                 builder: (context) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         Picker(
                           adapter: DateTimePickerAdapter(
                             value: formState._builder.date,
@@ -36,12 +38,16 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           },
                         ).showModal(context);
                       },
-                      child:
-                          Text('${S.of(context).addMedicationEntryDateLabel}: '
-                              '${formState._date}'),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            labelText:
+                                S.of(context).addMedicationEntryDateLabel),
+                        enabled: false,
+                        controller: formState._dateController,
+                      ),
                     ),
-                    TextButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         Picker(
                           cancelText: S
                               .of(context)
@@ -87,10 +93,13 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           },
                         ).showModal(context);
                       },
-                      child: Text(
-                          '${S.of(context).addMedicationEntryDurationLabel}: '
-                          '${_formatValue(formState._hours)}:'
-                          '${_formatValue(formState._minutes)}'),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            labelText:
+                                S.of(context).addMedicationEntryDurationLabel),
+                        enabled: false,
+                        controller: formState._durationController,
+                      ),
                     ),
                     AddMedicationFormField(
                       onChanged: formState.medicationChanged,
@@ -112,8 +121,6 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<MedicationEntry> onChanged;
 
-  static String _formatValue(num number) => number.toString().padLeft(2, '0');
-
   @override
   _AddMedicationEntryFormFieldState createState() =>
       _AddMedicationEntryFormFieldState();
@@ -128,8 +135,20 @@ class _AddMedicationEntryFormFieldState
 
   String get _date => DateFormat.yMd().format(_builder.date);
 
+  final _dateController = TextEditingController();
+  final _durationController = TextEditingController();
+
+  @override
+  void initState() {
+    _dateController.text = _date;
+    _durationController.text =
+        '${_formatValue(_hours)}:${_formatValue(_minutes)}';
+    super.initState();
+  }
+
   void dateChanged(DateTime date) {
     _builder.date = date;
+    _dateController.text = _date;
     _changed();
   }
 
@@ -146,6 +165,8 @@ class _AddMedicationEntryFormFieldState
   void durationChanged() {
     final duration = Duration(hours: _hours, minutes: _minutes);
     _builder.duration = duration;
+    _durationController.text =
+        '${_formatValue(_hours)}:${_formatValue(_minutes)}';
     _changed();
   }
 
