@@ -29,7 +29,6 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       child: Text(S.of(context).addMedicationEntryDateButton),
                     ),
                     TextButton(
-                      child: Text('asdf'),
                       onPressed: () {
                         Picker(
                           cancelText: S
@@ -68,6 +67,9 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                               S.of(context).addMedicationEntryDurationLabel),
                         ).showModal(context);
                       },
+                      child: Text(
+                          '${S.of(context).addMedicationEntryDurationLabel}: '
+                          '${formState._hours}:${formState._minutes}'),
                     ),
                     AddMedicationFormField(
                       onChanged: formState.medicationChanged,
