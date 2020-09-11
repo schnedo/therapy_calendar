@@ -9,6 +9,7 @@
   "addDoseLabel": "Dosis",
   "addDoseInvalidValidation": "Bitte Dosis angeben",
   "addMedicationEntryDateButton": "Datum eingeben",
+  "addMedicationEntryDateLabel": "Datum",
   "addMedicamentNameLabel": "Medikamentenbezeichnung",
   "addMedicamentNameInvalidValidation": "Bitte Medikamentenbezeichnung eingeben",
   "addMedicationEntryCommentsLabel": "Kommentare",
