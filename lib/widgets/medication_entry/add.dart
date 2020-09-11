@@ -101,9 +101,39 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                         controller: formState._durationController,
                       ),
                     ),
-                    AddMedicationFormField(
-                      onChanged: formState.medicationChanged,
-                    ),
+                    const Divider(),
+                    IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              final subFormKey = GlobalKey<FormState>();
+                              return AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      if (subFormKey.currentState.validate()) {
+                                        subFormKey.currentState.save();
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: Text(S
+                                        .of(context)
+                                        .addMedicationEntryViewSubmitButton),
+                                  )
+                                ],
+                                content: Form(
+                                  key: subFormKey,
+                                  child: AddMedicationFormField(
+                                    onSaved: formState.addMedication,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }),
+                    const Divider(),
                     TextFormField(
                       decoration: InputDecoration(
                           labelText:
@@ -135,7 +165,8 @@ class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
   final MedicationEntryBuilder _builder = MedicationEntryBuilder()
     ..date = DateTime.now()
-    ..duration = const Duration(hours: 1, minutes: 0);
+    ..duration = const Duration(hours: 1, minutes: 0)
+    ..medications = ListBuilder();
 
   String get _date => DateFormat.yMd().format(_builder.date);
 
@@ -161,8 +192,8 @@ class _AddMedicationEntryFormFieldState
     _changed();
   }
 
-  void medicationChanged(Medication medication) {
-    _builder.medications = ListBuilder([medication]);
+  void addMedication(Medication medication) {
+    _builder.medications.add(medication);
     _changed();
   }
 
