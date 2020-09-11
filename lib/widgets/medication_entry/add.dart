@@ -69,7 +69,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       },
                       child: Text(
                           '${S.of(context).addMedicationEntryDurationLabel}: '
-                          '${formState._hours}:${formState._minutes}'),
+                          '${_formatValue(formState._hours)}:'
+                          '${_formatValue(formState._minutes)}'),
                     ),
                     AddMedicationFormField(
                       onChanged: formState.medicationChanged,
@@ -99,7 +100,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
   final MedicationEntryBuilder _builder = MedicationEntryBuilder();
-  int _hours = 0;
+  int _hours = 1;
   int _minutes = 0;
 
   void dateChanged(DateTime date) {
