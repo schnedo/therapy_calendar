@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
@@ -18,15 +19,18 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
 
               return Builder(
                 builder: (context) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RaisedButton(
+                    TextButton(
                       onPressed: () => showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         lastDate: DateTime.now(),
                         firstDate: DateTime(2020),
                       ).then(formState.dateChanged),
-                      child: Text(S.of(context).addMedicationEntryDateButton),
+                      child:
+                          Text('${S.of(context).addMedicationEntryDateLabel}: '
+                              '${formState._date}'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -99,9 +103,12 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
 
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
-  final MedicationEntryBuilder _builder = MedicationEntryBuilder();
+  final MedicationEntryBuilder _builder = MedicationEntryBuilder()
+    ..date = DateTime.now();
   int _hours = 1;
   int _minutes = 0;
+
+  String get _date => DateFormat.yMd().format(_builder.date);
 
   void dateChanged(DateTime date) {
     _builder.date = date;
