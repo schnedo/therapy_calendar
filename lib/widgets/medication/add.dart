@@ -16,6 +16,7 @@ class AddMedicationFormField extends FormField<Medication> {
               final _AddMedicationFormFieldState formState = state;
 
               return Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   AddDoseFormField(
                     onChanged: formState.doseChanged,

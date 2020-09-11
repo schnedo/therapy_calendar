@@ -110,7 +110,18 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                             builder: (context) {
                               final subFormKey = GlobalKey<FormState>();
                               return AlertDialog(
+                                title: Text(S
+                                    .of(context)
+                                    .addMedicationEntryAddMedicationLabel),
                                 actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(S
+                                        .of(context)
+                                        .addMedicationEntryPickerCancelText),
+                                  ),
                                   TextButton(
                                     onPressed: () {
                                       if (subFormKey.currentState.validate()) {
@@ -121,7 +132,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                                     child: Text(S
                                         .of(context)
                                         .addMedicationEntryViewSubmitButton),
-                                  )
+                                  ),
                                 ],
                                 content: Form(
                                   key: subFormKey,

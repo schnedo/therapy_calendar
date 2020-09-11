@@ -18,5 +18,6 @@
   "addMedicationEntryPickerConfirmText": "Übernehmen",
   "addMedicationEntryPickerCancelText": "Abbrechen",
   "addMedicationEntryViewTitle": "Neuer Eintrag",
-  "addMedicationEntryViewSubmitButton": "Übernehmen"
+  "addMedicationEntryViewSubmitButton": "Übernehmen",
+  "addMedicationEntryAddMedicationLabel": "Neue Medikation"
 }
