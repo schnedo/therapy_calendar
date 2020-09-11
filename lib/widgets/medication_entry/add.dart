@@ -28,9 +28,9 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       ).then(formState.dateChanged),
                       child: Text(S.of(context).addMedicationEntryDateButton),
                     ),
-                    GestureDetector(
-                      child: Text('lauajfkljas'),
-                      onTap: () {
+                    TextButton(
+                      child: Text('asdf'),
+                      onPressed: () {
                         Picker(
                           cancelText: S
                               .of(context)
