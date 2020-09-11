@@ -103,8 +103,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       ),
                     ),
                     const Divider(),
-                    ...formState.medicationWidgets(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
+                    ...formState.medicationWidgets(),
                     IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
@@ -251,8 +251,26 @@ class _AddMedicationEntryFormFieldState
   List<Widget> medicationWidgets() => _builder.medications
       .build()
       .toList()
-      .map((medication) => MedicationCard(
-            medication: medication,
+      .map((medication) => Row(
+            children: [
+              Expanded(
+                flex: 10,
+                child: MedicationCard(
+                  medication: medication,
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                  color: Colors.red,
+                  icon: const Icon(Icons.delete_forever),
+                  onPressed: () {
+                    // _builder.medications.remove(medication);
+                    // _changed();
+                  },
+                ),
+              ),
+            ],
           ))
       .toList();
 }
