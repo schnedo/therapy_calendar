@@ -6,6 +6,7 @@ import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
+import 'package:therapy_calendar/widgets/medication/card.dart';
 
 String _formatValue(num number) => number.toString().padLeft(2, '0');
 
@@ -102,6 +103,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       ),
                     ),
                     const Divider(),
+                    ...formState.medicationWidgets(),
+                    Text(S.of(context).addMedicationEntryMedicationsLabel),
                     IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
@@ -169,6 +172,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
 
 extension _AbsoluteUnits on Duration {
   int get hours => inMinutes ~/ Duration.minutesPerHour;
+
   int get minutes => inMinutes % Duration.minutesPerHour;
 }
 
@@ -243,4 +247,12 @@ class _AddMedicationEntryFormFieldState
       // the first change reported will be the change to a correct object
     }
   }
+
+  List<Widget> medicationWidgets() => _builder.medications
+      .build()
+      .toList()
+      .map((medication) => MedicationCard(
+            medication: medication,
+          ))
+      .toList();
 }

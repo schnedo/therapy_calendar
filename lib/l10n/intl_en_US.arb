@@ -19,5 +19,6 @@
   "addMedicationEntryPickerCancelText": "Cancel",
   "addMedicationEntryViewTitle": "New Entry",
   "addMedicationEntryViewSubmitButton": "Submit",
-  "addMedicationEntryAddMedicationLabel": "New medication"
+  "addMedicationEntryAddMedicationLabel": "New medication",
+  "addMedicationEntryMedicationsLabel": "Medications"
 }
