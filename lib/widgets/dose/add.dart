@@ -16,7 +16,9 @@ class AddDoseFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextFormField(
-        decoration: InputDecoration(labelText: S.of(context).addDoseLabel),
+        decoration: InputDecoration(
+          labelText: '${S.of(context).addDoseLabel} (${Dose.unit})',
+        ),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         validator: (value) =>
