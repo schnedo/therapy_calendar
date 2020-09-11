@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
@@ -27,31 +28,49 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       ).then(formState.dateChanged),
                       child: Text(S.of(context).addMedicationEntryDateButton),
                     ),
+                    GestureDetector(
+                      child: Text('lauajfkljas'),
+                      onTap: () {
+                        Picker(
+                          cancelText: S
+                              .of(context)
+                              .addMedicationEntryDurationTimePickerCancelText,
+                          confirmText: S
+                              .of(context)
+                              .addMedicationEntryDurationTimePickerConfirmText,
+                          looping: true,
+                          magnification: 2,
+                          squeeze: 0.9,
+                          adapter: NumberPickerAdapter(data: [
+                            const NumberPickerColumn(
+                              begin: 0,
+                              end: 24,
+                              onFormatValue: _formatValue,
+                            ),
+                            const NumberPickerColumn(
+                              begin: 0,
+                              end: 59,
+                              jump: 5,
+                              onFormatValue: _formatValue,
+                            ),
+                          ]),
+                          delimiter: [
+                            PickerDelimiter(
+                                child: Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                ':',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ))
+                          ],
+                          title: Text(
+                              S.of(context).addMedicationEntryDurationLabel),
+                        ).showModal(context);
+                      },
+                    ),
                     AddMedicationFormField(
                       onChanged: formState.medicationChanged,
-                    ),
-                    RaisedButton(
-                      onPressed: () => showTimePicker(
-                        context: context,
-                        initialTime: const TimeOfDay(hour: 0, minute: 0),
-                        initialEntryMode: TimePickerEntryMode.dial,
-                        builder: (context, child) => Localizations.override(
-                          context: context,
-                          locale: const Locale('de', 'DE'),
-                          child: child,
-                        ),
-                        helpText: S
-                            .of(context)
-                            .addMedicationEntryDurationTimePickerHelpText,
-                        confirmText: S
-                            .of(context)
-                            .addMedicationEntryDurationTimePickerConfirmText,
-                        cancelText: S
-                            .of(context)
-                            .addMedicationEntryDurationTimePickerCancelText,
-                      ).then(formState.durationChanged),
-                      child:
-                          Text(S.of(context).addMedicationEntryDurationLabel),
                     ),
                     TextFormField(
                       decoration: InputDecoration(
@@ -68,6 +87,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<MedicationEntry> onChanged;
 
+  static String _formatValue(num number) => number.toString().padLeft(2, '0');
+
   @override
   _AddMedicationEntryFormFieldState createState() =>
       _AddMedicationEntryFormFieldState();
@@ -76,6 +97,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
   final MedicationEntryBuilder _builder = MedicationEntryBuilder();
+  int _hours = 0;
+  int _minutes = 0;
 
   void dateChanged(DateTime date) {
     _builder.date = date;
@@ -92,10 +115,20 @@ class _AddMedicationEntryFormFieldState
     _changed();
   }
 
-  void durationChanged(TimeOfDay timeOfDay) {
-    final duration = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
+  void _durationChanged() {
+    final duration = Duration(hours: _hours, minutes: _minutes);
     _builder.duration = duration;
     _changed();
+  }
+
+  void hoursChanged(num hours) {
+    _hours = hours;
+    _durationChanged();
+  }
+
+  void minutesChanged(num minutes) {
+    _minutes = minutes;
+    _durationChanged();
   }
 
   @override
