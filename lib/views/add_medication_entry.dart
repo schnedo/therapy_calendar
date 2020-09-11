@@ -14,29 +14,31 @@ class AddMedicationEntry extends StatelessWidget {
         appBar: AppBar(
           title: Text(S.of(context).addMedicationEntryViewTitle),
         ),
-        body: Form(
-          key: _formKey,
-          child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                children: [
-                  AddMedicationEntryFormField(
-                    onSaved: (entry) {
-                      context.bloc<MedicationEntryBloc>().add(entry);
-                    },
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child:
-                        Text(S.of(context).addMedicationEntryViewSubmitButton),
-                  )
-                ],
-              )),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    AddMedicationEntryFormField(
+                      onSaved: (entry) {
+                        context.bloc<MedicationEntryBloc>().add(entry);
+                      },
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text(
+                          S.of(context).addMedicationEntryViewSubmitButton),
+                    )
+                  ],
+                )),
+          ),
         ),
       );
 }
