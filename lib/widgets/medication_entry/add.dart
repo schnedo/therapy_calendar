@@ -22,12 +22,20 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextButton(
-                      onPressed: () => showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        lastDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                      ).then(formState.dateChanged),
+                      onPressed: () {
+                        Picker(
+                          adapter: DateTimePickerAdapter(
+                            value: formState._builder.date,
+                            maxValue: DateTime.now(),
+                          ),
+                          title:
+                              Text(S.of(context).addMedicationEntryDateLabel),
+                          onConfirm: (picker, _) {
+                            final DateTimePickerAdapter p = picker.adapter;
+                            formState.dateChanged(p.value);
+                          },
+                        ).showModal(context);
+                      },
                       child:
                           Text('${S.of(context).addMedicationEntryDateLabel}: '
                               '${formState._date}'),
@@ -45,15 +53,17 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           magnification: 2,
                           squeeze: 0.9,
                           adapter: NumberPickerAdapter(data: [
-                            const NumberPickerColumn(
+                            NumberPickerColumn(
+                              initValue: formState._hours,
                               begin: 0,
                               end: 24,
                               onFormatValue: _formatValue,
                             ),
-                            const NumberPickerColumn(
+                            NumberPickerColumn(
+                              initValue: formState._minutes,
                               begin: 0,
                               end: 59,
-                              jump: 5,
+                              jump: stepSize,
                               onFormatValue: _formatValue,
                             ),
                           ]),
@@ -69,6 +79,12 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           ],
                           title: Text(
                               S.of(context).addMedicationEntryDurationLabel),
+                          onConfirm: (picker, selecteds) {
+                            formState
+                              .._hours = selecteds[0]
+                              .._minutes = selecteds[1] * stepSize
+                              ..durationChanged();
+                          },
                         ).showModal(context);
                       },
                       child: Text(
@@ -90,6 +106,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
               );
             },
             key: key);
+
+  static const stepSize = 5;
 
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<MedicationEntry> onChanged;
@@ -125,20 +143,10 @@ class _AddMedicationEntryFormFieldState
     _changed();
   }
 
-  void _durationChanged() {
+  void durationChanged() {
     final duration = Duration(hours: _hours, minutes: _minutes);
     _builder.duration = duration;
     _changed();
-  }
-
-  void hoursChanged(num hours) {
-    _hours = hours;
-    _durationChanged();
-  }
-
-  void minutesChanged(num minutes) {
-    _minutes = minutes;
-    _durationChanged();
   }
 
   @override
@@ -153,6 +161,7 @@ class _AddMedicationEntryFormFieldState
   }
 
   void _changed() {
+    setState(() {});
     final AddMedicationEntryFormField f = widget;
     try {
       final value = _builder.build();
