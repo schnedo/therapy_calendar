@@ -21,6 +21,7 @@ dependencies:
   intl_translation: ^0.17.10
   intl_utils: ^1.6.3
   sticky_headers: ^0.1.8+1
+  tuple: ^1.0.3
 
 dev_dependencies:
   build_runner: ^1.10.2

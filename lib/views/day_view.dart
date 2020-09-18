@@ -9,20 +9,24 @@ import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/views/add_medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/card.dart';
+import 'package:tuple/tuple.dart';
 
 enum _Changes { delete }
 
 extension _DateChunking on List<MedicationEntry> {
-  List<List<MedicationEntry>> chunk() => map((entry) => entry.date.month)
-      .toSet()
-      .map((month) => where((entry) => entry.date.month == month).toList())
-      .toList();
+  List<List<MedicationEntry>> chunk() =>
+      map((entry) => Tuple2(entry.date.month, entry.date.year))
+          .toSet()
+          .map((monthYear) => where((entry) =>
+              entry.date.month == monthYear.item1 &&
+              entry.date.year == monthYear.item2).toList())
+          .toList();
 }
 
 class DayView extends StatelessWidget {
   static const routeName = '/';
 
-  static final _dateFormatter = DateFormat.MMMM();
+  static final _dateFormatter = DateFormat.MMMM().add_y();
 
   @override
   Widget build(BuildContext context) => Scaffold(
