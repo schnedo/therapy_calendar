@@ -240,7 +240,7 @@ class _AddMedicationEntryFormFieldState
             key: subFormKey,
             child: AddMedicationFormField(
               onSaved: addMedication,
-              prefill: medication,
+              initialValue: medication,
             ),
           ),
         );

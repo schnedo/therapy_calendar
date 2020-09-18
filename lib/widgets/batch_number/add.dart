@@ -6,12 +6,12 @@ import 'package:therapy_calendar/model/batch_number.dart';
 
 class AddBatchNumberFormField extends StatelessWidget {
   const AddBatchNumberFormField(
-      {this.onSaved, this.onChanged, Key key, this.prefill})
+      {this.onSaved, this.onChanged, Key key, this.initialValue})
       : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(key: key);
 
-  final BatchNumber prefill;
+  final BatchNumber initialValue;
   // ignore: diagnostic_describe_all_properties
   final FormFieldSetter<BatchNumber> onSaved;
   // ignore: diagnostic_describe_all_properties
@@ -19,7 +19,7 @@ class AddBatchNumberFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextFormField(
-      initialValue: prefill?.number?.toString() ?? '',
+      initialValue: initialValue?.number?.toString() ?? '',
       decoration: InputDecoration(labelText: S.of(context).addBatchNumberLabel),
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -45,6 +45,7 @@ class AddBatchNumberFormField extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<BatchNumber>('prefill', prefill));
+    properties
+        .add(DiagnosticsProperty<BatchNumber>('initialValue', initialValue));
   }
 }
