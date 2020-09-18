@@ -4,6 +4,7 @@
   "dayViewDateHeader": "Datum",
   "dayViewMedicationHeader": "Medikation",
   "dayViewDurationHeader": "Dauer",
+  "dayViewDeleteLabel": "Löschen",
   "addBatchNumberLabel": "Chargennummer",
   "addBatchNumberInvalidValidation": "Bitte Chargennummer eingeben",
   "addDoseLabel": "Dosis",

@@ -7,6 +7,8 @@ import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/views/add_medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/card.dart';
 
+enum _Changes { delete }
+
 class DayView extends StatelessWidget {
   static const routeName = '/';
 
@@ -35,12 +37,37 @@ class DayView extends StatelessWidget {
                 child: BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
               buildWhen: (_, __) => true,
               builder: (context, medicationEntries) => ListView.builder(
-                itemBuilder: (ctx, index) =>
-                    MedicationEntryCard(entry: medicationEntries[index]),
+                itemBuilder: (ctx, index) => GestureDetector(
+                  onLongPressStart: (details) =>
+                      longPressMenu(ctx, details, medicationEntries[index]),
+                  child: MedicationEntryCard(entry: medicationEntries[index]),
+                ),
                 itemCount: medicationEntries.length,
               ),
             )),
           ],
         ),
       );
+
+  Future<void> longPressMenu(BuildContext context,
+      LongPressStartDetails details, MedicationEntry medicationEntry) async {
+    final result = await showMenu<_Changes>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+          details.globalPosition.dx, details.globalPosition.dy, 0, 0),
+      items: [
+        PopupMenuItem(
+          value: _Changes.delete,
+          child: Text(S.of(context).dayViewDeleteLabel),
+        ),
+      ],
+      elevation: 8,
+    );
+
+    switch (result) {
+      case _Changes.delete:
+        context.bloc<MedicationEntryBloc>().remove(medicationEntry);
+        break;
+    }
+  }
 }
