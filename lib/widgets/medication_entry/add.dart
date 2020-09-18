@@ -139,6 +139,13 @@ extension _AbsoluteUnits on Duration {
   int get minutes => inMinutes % Duration.minutesPerHour;
 }
 
+extension _ReplaceMedication on ListBuilder<Medication> {
+  void replaceMedication(Medication oldValue, Medication newValue) {
+    final index = build().indexOf(oldValue);
+    this[index] = newValue;
+  }
+}
+
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
   final MedicationEntryBuilder _builder = MedicationEntryBuilder()
@@ -239,7 +246,13 @@ class _AddMedicationEntryFormFieldState
           content: Form(
             key: subFormKey,
             child: AddMedicationFormField(
-              onSaved: addMedication,
+              onSaved: medication == null
+                  ? addMedication
+                  : (newMedication) {
+                      _builder.medications
+                          .replaceMedication(medication, newMedication);
+                      _changed();
+                    },
               initialValue: medication,
             ),
           ),
