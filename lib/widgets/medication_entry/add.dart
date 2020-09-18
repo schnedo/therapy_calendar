@@ -225,7 +225,9 @@ class _AddMedicationEntryFormFieldState
       builder: (context) {
         final subFormKey = GlobalKey<FormState>();
         return AlertDialog(
-          title: Text(S.of(context).addMedicationEntryAddMedicationLabel),
+          title: medication == null
+              ? Text(S.of(context).addMedicationEntryAddMedicationLabel)
+              : Text(S.of(context).addMedicationEntryEdictMedicationLabel),
           actions: [
             TextButton(
               onPressed: () {

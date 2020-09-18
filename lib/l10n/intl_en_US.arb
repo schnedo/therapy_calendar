@@ -20,5 +20,6 @@
   "addMedicationEntryViewTitle": "New Entry",
   "addMedicationEntryViewSubmitButton": "Submit",
   "addMedicationEntryAddMedicationLabel": "New medication",
-  "addMedicationEntryMedicationsLabel": "Medications"
+  "addMedicationEntryMedicationsLabel": "Medications",
+  "addMedicationEntryEdictMedicationLabel": "Edit medication"
 }

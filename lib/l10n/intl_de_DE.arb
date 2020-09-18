@@ -20,5 +20,6 @@
   "addMedicationEntryViewTitle": "Neuer Eintrag",
   "addMedicationEntryViewSubmitButton": "Übernehmen",
   "addMedicationEntryAddMedicationLabel": "Neue Medikation",
-  "addMedicationEntryMedicationsLabel": "Medikationen"
+  "addMedicationEntryMedicationsLabel": "Medikationen",
+  "addMedicationEntryEdictMedicationLabel": "Medikation editieren"
 }
