@@ -165,6 +165,11 @@ class _AddMedicationEntryFormFieldState
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';
     super.initState();
+
+    try {
+      didChange(_builder.build());
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {}
   }
 
   void dateChanged(DateTime date) {
