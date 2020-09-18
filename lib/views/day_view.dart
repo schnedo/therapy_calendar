@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
@@ -10,6 +11,13 @@ import 'package:therapy_calendar/views/add_medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/card.dart';
 
 enum _Changes { delete }
+
+extension _DateChunking on List<MedicationEntry> {
+  List<List<MedicationEntry>> chunk() => map((entry) => entry.date.month)
+      .toSet()
+      .map((month) => where((entry) => entry.date.month == month).toList())
+      .toList();
+}
 
 class DayView extends StatelessWidget {
   static const routeName = '/';
@@ -40,29 +48,36 @@ class DayView extends StatelessWidget {
             Expanded(
                 child: BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
               buildWhen: (_, __) => true,
-              builder: (context, entries) => ListView.builder(
-                itemBuilder: (ctx, index) {
-                  final entry = entries[index];
+              builder: (context, all) {
+                final entriesByMonth = all.chunk();
 
-                  // ignore: avoid_bool_literals_in_conditional_expressions
-                  final newDate = index == 0
-                      ? true
-                      : entries[index - 1].date.month != entry.date.month;
+                return ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    final entriesInSameMonth = entriesByMonth[index];
 
-                  return Column(
-                    children: [
-                      if (newDate)
-                        _TextDivider(text: _dateFormatter.format(entry.date)),
-                      GestureDetector(
-                        onLongPressStart: (details) =>
-                            longPressMenu(ctx, details, entry),
-                        child: MedicationEntryCard(entry: entry),
+                    final cards = entriesInSameMonth
+                        .map(
+                          (entry) => GestureDetector(
+                            onLongPressStart: (details) =>
+                                longPressMenu(ctx, details, entry),
+                            child: MedicationEntryCard(entry: entry),
+                          ),
+                        )
+                        .toList();
+
+                    return StickyHeader(
+                      header: _TextDivider(
+                        text: _dateFormatter
+                            .format(entriesInSameMonth.first.date),
                       ),
-                    ],
-                  );
-                },
-                itemCount: entries.length,
-              ),
+                      content: Column(
+                        children: cards,
+                      ),
+                    );
+                  },
+                  itemCount: entriesByMonth.length,
+                );
+              },
             )),
           ],
         ),
