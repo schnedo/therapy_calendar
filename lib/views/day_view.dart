@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/medication_entry.dart';
@@ -11,6 +13,8 @@ enum _Changes { delete }
 
 class DayView extends StatelessWidget {
   static const routeName = '/';
+
+  static final _dateFormatter = DateFormat.MMMM();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -36,13 +40,28 @@ class DayView extends StatelessWidget {
             Expanded(
                 child: BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
               buildWhen: (_, __) => true,
-              builder: (context, medicationEntries) => ListView.builder(
-                itemBuilder: (ctx, index) => GestureDetector(
-                  onLongPressStart: (details) =>
-                      longPressMenu(ctx, details, medicationEntries[index]),
-                  child: MedicationEntryCard(entry: medicationEntries[index]),
-                ),
-                itemCount: medicationEntries.length,
+              builder: (context, entries) => ListView.builder(
+                itemBuilder: (ctx, index) {
+                  final entry = entries[index];
+
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  final newDate = index == 0
+                      ? true
+                      : entries[index - 1].date.month != entry.date.month;
+
+                  return Column(
+                    children: [
+                      if (newDate)
+                        _TextDivider(text: _dateFormatter.format(entry.date)),
+                      GestureDetector(
+                        onLongPressStart: (details) =>
+                            longPressMenu(ctx, details, entry),
+                        child: MedicationEntryCard(entry: entry),
+                      ),
+                    ],
+                  );
+                },
+                itemCount: entries.length,
               ),
             )),
           ],
@@ -69,5 +88,37 @@ class DayView extends StatelessWidget {
         context.bloc<MedicationEntryBloc>().remove(medicationEntry);
         break;
     }
+  }
+}
+
+class _TextDivider extends StatelessWidget {
+  const _TextDivider({@required this.text, Key key})
+      : assert(text != null, 'Use "Divider()" instead.'),
+        super(key: key);
+
+  static const divider = Expanded(
+    flex: 1,
+    child: Divider(),
+  );
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Row(children: [
+        divider,
+        Expanded(
+          flex: 1,
+          child: Center(
+              child: Text(
+            text,
+          )),
+        ),
+        divider,
+      ]);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('text', text));
   }
 }

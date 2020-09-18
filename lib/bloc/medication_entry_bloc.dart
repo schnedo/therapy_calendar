@@ -5,7 +5,7 @@ class MedicationEntryBloc extends Cubit<List<MedicationEntry>> {
   MedicationEntryBloc() : super([]);
 
   void add(MedicationEntry medicationEntry) {
-    emit([...state, medicationEntry]);
+    emit([medicationEntry, ...state]);
   }
 
   void remove(MedicationEntry medicationEntry) {
