@@ -87,8 +87,13 @@ class DayView extends StatelessWidget {
       LongPressStartDetails details, MedicationEntry medicationEntry) async {
     final result = await showMenu<_Changes>(
       context: context,
+      // we don't know how this works...
       position: RelativeRect.fromLTRB(
-          details.globalPosition.dx, details.globalPosition.dy, 0, 0),
+        details.globalPosition.dx,
+        details.globalPosition.dy,
+        details.globalPosition.dx,
+        details.globalPosition.dy,
+      ),
       items: [
         PopupMenuItem(
           value: _Changes.delete,
