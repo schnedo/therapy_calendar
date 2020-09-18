@@ -108,44 +108,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              final subFormKey = GlobalKey<FormState>();
-                              return AlertDialog(
-                                title: Text(S
-                                    .of(context)
-                                    .addMedicationEntryAddMedicationLabel),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(S
-                                        .of(context)
-                                        .addMedicationEntryPickerCancelText),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      if (subFormKey.currentState.validate()) {
-                                        subFormKey.currentState.save();
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                    child: Text(S
-                                        .of(context)
-                                        .addMedicationEntryViewSubmitButton),
-                                  ),
-                                ],
-                                content: Form(
-                                  key: subFormKey,
-                                  child: AddMedicationFormField(
-                                    onSaved: formState.addMedication,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                          formState.showMedicationDialog(context);
                         }),
                     const Divider(),
                     TextFormField(
@@ -181,6 +144,7 @@ class _AddMedicationEntryFormFieldState
   final MedicationEntryBuilder _builder = MedicationEntryBuilder()
     ..date = DateTime.now()
     ..duration = const Duration(hours: 1, minutes: 0)
+    ..comments = ''
     ..medications = ListBuilder();
 
   String get _date => DateFormat.yMd().format(_builder.date);
@@ -248,6 +212,42 @@ class _AddMedicationEntryFormFieldState
     }
   }
 
+  void showMedicationDialog(BuildContext context, {Medication medication}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final subFormKey = GlobalKey<FormState>();
+        return AlertDialog(
+          title: Text(S.of(context).addMedicationEntryAddMedicationLabel),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(S.of(context).addMedicationEntryPickerCancelText),
+            ),
+            TextButton(
+              onPressed: () {
+                if (subFormKey.currentState.validate()) {
+                  subFormKey.currentState.save();
+                  Navigator.pop(context);
+                }
+              },
+              child: Text(S.of(context).addMedicationEntryViewSubmitButton),
+            ),
+          ],
+          content: Form(
+            key: subFormKey,
+            child: AddMedicationFormField(
+              onSaved: addMedication,
+              prefill: medication,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   List<Widget> medicationWidgets() => _builder.medications
       .build()
       .toList()
@@ -255,18 +255,20 @@ class _AddMedicationEntryFormFieldState
             children: [
               Expanded(
                 flex: 10,
-                child: MedicationCard(
-                  medication: medication,
+                child: GestureDetector(
+                  onTap: () {
+                    showMedicationDialog(context, medication: medication);
+                  },
+                  child: MedicationCard(medication: medication),
                 ),
               ),
               Expanded(
                 flex: 1,
                 child: IconButton(
-                  color: Colors.red,
                   icon: const Icon(Icons.delete_forever),
                   onPressed: () {
-                    // _builder.medications.remove(medication);
-                    // _changed();
+                    _builder.medications.remove(medication);
+                    _changed();
                   },
                 ),
               ),
