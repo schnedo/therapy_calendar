@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
@@ -6,7 +7,8 @@ import 'package:therapy_calendar/model/medicament.dart';
 import 'package:therapy_calendar/widgets/batch_number/add.dart';
 
 class AddMedicamentFormField extends FormField<Medicament> {
-  AddMedicamentFormField({FormFieldSetter<Medicament> onSaved, this.onChanged})
+  AddMedicamentFormField(
+      {FormFieldSetter<Medicament> onSaved, this.onChanged, this.prefill})
       : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
@@ -18,9 +20,11 @@ class AddMedicamentFormField extends FormField<Medicament> {
                 builder: (context) => Column(
                   children: [
                     AddBatchNumberFormField(
+                      prefill: prefill?.batchNumber,
                       onChanged: formState.batchNumberChanged,
                     ),
                     TextFormField(
+                      initialValue: prefill?.name ?? '',
                       decoration: InputDecoration(
                         labelText: S.of(context).addMedicamentNameLabel,
                       ),
@@ -34,11 +38,18 @@ class AddMedicamentFormField extends FormField<Medicament> {
               );
             });
 
+  final Medicament prefill;
+
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<Medicament> onChanged;
 
   @override
   _AddMedicamentFormFieldState createState() => _AddMedicamentFormFieldState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Medicament>('prefill', prefill));
+  }
 }
 
 class _AddMedicamentFormFieldState extends FormFieldState<Medicament> {

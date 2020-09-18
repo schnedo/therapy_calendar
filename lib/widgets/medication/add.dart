@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:therapy_calendar/model/dose.dart';
 import 'package:therapy_calendar/model/medicament.dart';
@@ -6,9 +7,12 @@ import 'package:therapy_calendar/widgets/dose/add.dart';
 import 'package:therapy_calendar/widgets/medicament/add.dart';
 
 class AddMedicationFormField extends FormField<Medication> {
-  AddMedicationFormField(
-      {FormFieldSetter<Medication> onSaved, this.onChanged, Key key})
-      : assert(onSaved != null || onChanged != null,
+  AddMedicationFormField({
+    FormFieldSetter<Medication> onSaved,
+    this.onChanged,
+    Key key,
+    this.prefill,
+  })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
             onSaved: onSaved,
@@ -20,9 +24,11 @@ class AddMedicationFormField extends FormField<Medication> {
                 children: [
                   AddDoseFormField(
                     onChanged: formState.doseChanged,
+                    prefill: prefill?.dose,
                   ),
                   AddMedicamentFormField(
                     onChanged: formState.medicamentChanged,
+                    prefill: prefill?.medicament,
                   ),
                 ],
               );
@@ -31,13 +37,30 @@ class AddMedicationFormField extends FormField<Medication> {
 
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<Medication> onChanged;
+  final Medication prefill;
 
   @override
-  _AddMedicationFormFieldState createState() => _AddMedicationFormFieldState();
+  _AddMedicationFormFieldState createState() =>
+      _AddMedicationFormFieldState(prefill);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Medication>('prefill', prefill));
+  }
 }
 
 class _AddMedicationFormFieldState extends FormFieldState<Medication> {
-  final MedicationBuilder _builder = MedicationBuilder();
+  _AddMedicationFormFieldState(Medication prefill)
+      : _builder = prefill?.toBuilder() ?? MedicationBuilder();
+
+  @override
+  void initState() {
+    super.initState();
+    _changed();
+  }
+
+  final MedicationBuilder _builder;
 
   void doseChanged(Dose dose) {
     _builder.dose = dose.toBuilder();

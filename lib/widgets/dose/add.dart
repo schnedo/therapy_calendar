@@ -1,14 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/dose.dart';
 
 class AddDoseFormField extends StatelessWidget {
-  const AddDoseFormField({this.onSaved, this.onChanged, Key key})
+  const AddDoseFormField({this.onSaved, this.onChanged, Key key, this.prefill})
       : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(key: key);
 
+  final Dose prefill;
   // ignore: diagnostic_describe_all_properties
   final FormFieldSetter<Dose> onSaved;
   // ignore: diagnostic_describe_all_properties
@@ -16,6 +18,7 @@ class AddDoseFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextFormField(
+        initialValue: prefill?.amount?.toString() ?? '',
         decoration: InputDecoration(
           labelText: S.of(context).addDoseLabel,
           suffixText: Dose.unit,
@@ -37,4 +40,10 @@ class AddDoseFormField extends StatelessWidget {
               }
             : null,
       );
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Dose>('prefill', prefill));
+  }
 }
