@@ -5,7 +5,9 @@ class MedicationEntryBloc extends Cubit<List<MedicationEntry>> {
   MedicationEntryBloc() : super([]);
 
   void add(MedicationEntry medicationEntry) {
-    emit([medicationEntry, ...state]);
+    final newEntries = [medicationEntry, ...state]
+      ..sort((a, b) => a.date.compareTo(b.date));
+    emit(newEntries);
   }
 
   void remove(MedicationEntry medicationEntry) {
