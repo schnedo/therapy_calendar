@@ -8,10 +8,12 @@ abstract class BatchNumber implements Built<BatchNumber, BatchNumberBuilder> {
       _$BatchNumber;
   BatchNumber._();
 
+  static const prefix = 'Ch.-B.';
+
   int get number;
 
   @override
-  String toString() => 'Ch.-B. $number';
+  String toString() => '$prefix $number';
 
   static Serializer<BatchNumber> get serializer => _$batchNumberSerializer;
 }
