@@ -7,4 +7,8 @@ class MedicationEntryBloc extends Cubit<List<MedicationEntry>> {
   void add(MedicationEntry medicationEntry) {
     emit([...state, medicationEntry]);
   }
+
+  void remove(MedicationEntry medicationEntry) {
+    emit(state.where((element) => element != medicationEntry).toList());
+  }
 }
