@@ -8,10 +8,13 @@ import 'package:therapy_calendar/widgets/batch_number/add.dart';
 
 class AddMedicamentFormField extends FormField<Medicament> {
   AddMedicamentFormField(
-      {FormFieldSetter<Medicament> onSaved, this.onChanged, this.prefill})
+      {FormFieldSetter<Medicament> onSaved,
+      this.onChanged,
+      Medicament initialValue})
       : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
+            initialValue: initialValue,
             onSaved: onSaved,
             builder: (field) {
               final _AddMedicamentFormFieldState formState = field;
@@ -20,11 +23,11 @@ class AddMedicamentFormField extends FormField<Medicament> {
                 builder: (context) => Column(
                   children: [
                     AddBatchNumberFormField(
-                      prefill: prefill?.batchNumber,
+                      initialValue: initialValue?.batchNumber,
                       onChanged: formState.batchNumberChanged,
                     ),
                     TextFormField(
-                      initialValue: prefill?.name ?? '',
+                      initialValue: initialValue?.name ?? '',
                       decoration: InputDecoration(
                         labelText: S.of(context).addMedicamentNameLabel,
                       ),
@@ -38,22 +41,26 @@ class AddMedicamentFormField extends FormField<Medicament> {
               );
             });
 
-  final Medicament prefill;
-
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<Medicament> onChanged;
 
   @override
-  _AddMedicamentFormFieldState createState() => _AddMedicamentFormFieldState();
+  _AddMedicamentFormFieldState createState() =>
+      _AddMedicamentFormFieldState(initialValue);
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Medicament>('prefill', prefill));
+    properties
+        .add(DiagnosticsProperty<Medicament>('initialValue', initialValue));
   }
 }
 
 class _AddMedicamentFormFieldState extends FormFieldState<Medicament> {
-  final MedicamentBuilder _builder = MedicamentBuilder();
+  _AddMedicamentFormFieldState(Medicament initialValue)
+      : _builder = initialValue?.toBuilder() ?? MedicamentBuilder();
+
+  final MedicamentBuilder _builder;
 
   void batchNumberChanged(BatchNumber batchNumber) {
     _builder.batchNumber = batchNumber.toBuilder();

@@ -11,10 +11,11 @@ class AddMedicationFormField extends FormField<Medication> {
     FormFieldSetter<Medication> onSaved,
     this.onChanged,
     Key key,
-    this.prefill,
+    Medication initialValue,
   })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
+            initialValue: initialValue,
             onSaved: onSaved,
             builder: (state) {
               final _AddMedicationFormFieldState formState = state;
@@ -24,11 +25,11 @@ class AddMedicationFormField extends FormField<Medication> {
                 children: [
                   AddDoseFormField(
                     onChanged: formState.doseChanged,
-                    prefill: prefill?.dose,
+                    initialValue: initialValue?.dose,
                   ),
                   AddMedicamentFormField(
                     onChanged: formState.medicamentChanged,
-                    prefill: prefill?.medicament,
+                    initialValue: initialValue?.medicament,
                   ),
                 ],
               );
@@ -37,28 +38,22 @@ class AddMedicationFormField extends FormField<Medication> {
 
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<Medication> onChanged;
-  final Medication prefill;
 
   @override
   _AddMedicationFormFieldState createState() =>
-      _AddMedicationFormFieldState(prefill);
+      _AddMedicationFormFieldState(initialValue);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Medication>('prefill', prefill));
+    properties
+        .add(DiagnosticsProperty<Medication>('initialValue', initialValue));
   }
 }
 
 class _AddMedicationFormFieldState extends FormFieldState<Medication> {
-  _AddMedicationFormFieldState(Medication prefill)
-      : _builder = prefill?.toBuilder() ?? MedicationBuilder();
-
-  @override
-  void initState() {
-    super.initState();
-    _changed();
-  }
+  _AddMedicationFormFieldState(Medication initialValue)
+      : _builder = initialValue?.toBuilder() ?? MedicationBuilder();
 
   final MedicationBuilder _builder;
 
