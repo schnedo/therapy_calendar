@@ -20,7 +20,9 @@ class AddBatchNumberFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TextFormField(
       initialValue: initialValue?.number?.toString() ?? '',
-      decoration: InputDecoration(labelText: S.of(context).addBatchNumberLabel),
+      decoration: InputDecoration(
+          labelText: S.of(context).addBatchNumberLabel,
+          prefixText: BatchNumber.prefix),
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) =>
