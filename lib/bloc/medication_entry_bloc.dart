@@ -16,7 +16,10 @@ class MedicationEntryBloc extends Cubit<List<MedicationEntry>> {
     emit(newEntries);
   }
 
-  void remove(MedicationEntry medicationEntry) {
-    emit(state.where((element) => element != medicationEntry).toList());
+  void remove(MedicationEntry medicationEntry) async {
+    final newEntries =
+        state.where((element) => element != medicationEntry).toList();
+    await _medicationEntryRepository.saveAll(newEntries);
+    emit(newEntries);
   }
 }
