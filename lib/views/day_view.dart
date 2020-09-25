@@ -109,7 +109,7 @@ class DayView extends StatelessWidget {
 
     switch (result) {
       case _Changes.delete:
-        context.bloc<MedicationEntryBloc>().remove(medicationEntry);
+        await context.bloc<MedicationEntryBloc>().remove(medicationEntry);
         break;
     }
   }
