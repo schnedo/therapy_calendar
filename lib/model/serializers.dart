@@ -9,7 +9,7 @@ import 'package:therapy_calendar/model/medication_entry.dart';
 
 part 'serializers.g.dart';
 
-const medicationEntryBuiltListType =
+const _medicationEntryBuiltListType =
     FullType(BuiltList, [FullType(MedicationEntry)]);
 
 @SerializersFor([
@@ -21,7 +21,7 @@ const medicationEntryBuiltListType =
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
-          medicationEntryBuiltListType, () => ListBuilder<MedicationEntry>())
+          _medicationEntryBuiltListType, () => ListBuilder<MedicationEntry>())
       ..addPlugin(StandardJsonPlugin()))
     .build();
 
@@ -37,7 +37,7 @@ BuiltList<MedicationEntry> _transformToUtcTimedList(
 dynamic serialize(List<MedicationEntry> medicationEntries) {
   final utcConvertedList = _transformToUtcTimedList(medicationEntries);
   return serializers.serialize(utcConvertedList,
-      specifiedType: medicationEntryBuiltListType);
+      specifiedType: _medicationEntryBuiltListType);
 }
 
 // We work with dynamic here, therefore no type annotation necessary
