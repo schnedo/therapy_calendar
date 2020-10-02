@@ -23,6 +23,8 @@ dependencies:
   sticky_headers: ^0.1.8+1
   tuple: ^1.0.3
   path_provider: ^1.6.18
+  pdf: ^1.11.2
+  open_file: ^3.0.1
 
 dev_dependencies:
   build_runner: ^1.10.2
