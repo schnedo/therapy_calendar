@@ -6,12 +6,6 @@ import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/model/serializers.dart';
 
 class MedicationEntryRepository {
-  factory MedicationEntryRepository() => _instance;
-  MedicationEntryRepository._();
-
-  static final MedicationEntryRepository _instance =
-      MedicationEntryRepository._();
-
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
