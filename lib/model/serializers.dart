@@ -25,20 +25,9 @@ final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin()))
     .build();
 
-BuiltList<MedicationEntry> _transformToUtcTimedList(
-        List<MedicationEntry> medicationEntries) =>
-    medicationEntries
-        .map((medicationEntry) => medicationEntry.toBuilder())
-        .map((medicationEntryBuilder) =>
-            medicationEntryBuilder..date = medicationEntryBuilder.date.toUtc())
-        .map((medicationEntryBuilder) => medicationEntryBuilder.build())
-        .toBuiltList();
-
-dynamic serialize(List<MedicationEntry> medicationEntries) {
-  final utcConvertedList = _transformToUtcTimedList(medicationEntries);
-  return serializers.serialize(utcConvertedList,
-      specifiedType: _medicationEntryBuiltListType);
-}
+dynamic serialize(List<MedicationEntry> medicationEntries) =>
+    serializers.serialize(medicationEntries.toBuiltList(),
+        specifiedType: _medicationEntryBuiltListType);
 
 // We work with dynamic here, therefore no type annotation necessary
 // ignore: type_annotate_public_apis
