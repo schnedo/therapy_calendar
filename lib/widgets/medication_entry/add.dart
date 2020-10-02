@@ -116,6 +116,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           labelText:
                               S.of(context).addMedicationEntryCommentsLabel),
                       onChanged: formState.commentChanged,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
                     ),
                   ],
                 ),
