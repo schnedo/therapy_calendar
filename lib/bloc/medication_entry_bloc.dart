@@ -3,7 +3,7 @@ import 'package:therapy_calendar/model/medication_entry.dart';
 import 'package:therapy_calendar/model/medication_entry_repository.dart';
 
 class MedicationEntryBloc extends Cubit<List<MedicationEntry>> {
-  MedicationEntryBloc(this._medicationEntryRepository) : super([]) {
+  MedicationEntryBloc(this._medicationEntryRepository) : super(null) {
     _medicationEntryRepository.getAll().then(emit);
   }
 
