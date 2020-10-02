@@ -90,7 +90,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                               S.of(context).addMedicationEntryDurationLabel),
                           onConfirm: (picker, selecteds) {
                             formState.durationChanged(
-                                selecteds[0], selecteds[1]);
+                                selecteds[0], selecteds[1] * stepSize);
                           },
                         ).showModal(context);
                       },
