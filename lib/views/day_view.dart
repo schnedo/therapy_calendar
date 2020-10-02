@@ -53,6 +53,17 @@ class DayView extends StatelessWidget {
                 child: BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
               buildWhen: (_, __) => true,
               builder: (context, all) {
+                if (all == null) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).primaryColorLight),
+                      ),
+                    ),
+                  );
+                }
                 final entriesByMonth = all.chunk();
 
                 return ListView.builder(
