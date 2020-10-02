@@ -22,5 +22,6 @@
   "addMedicationEntryViewSubmitButton": "Übernehmen",
   "addMedicationEntryAddMedicationLabel": "Neue Medikation",
   "addMedicationEntryMedicationsLabel": "Medikationen",
-  "addMedicationEntryEdictMedicationLabel": "Medikation editieren"
+  "addMedicationEntryEdictMedicationLabel": "Medikation editieren",
+  "pdfFileName": "Medikamenten-Kalender"
 }
