@@ -36,9 +36,8 @@ class DayView extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.print),
-              onPressed: () {
-                toPdf(S.of(context), context.bloc<MedicationEntryBloc>().state);
-              },
+              onPressed: () => toPdf(
+                  S.of(context), context.bloc<MedicationEntryBloc>().state),
             )
           ],
         ),
