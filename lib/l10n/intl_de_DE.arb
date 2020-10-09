@@ -26,6 +26,7 @@
   "pdfFileName": "Medikamenten-Kalender",
   "patientData": "Patientendaten",
   "doctorData": "Doktordaten",
+  "treatmentCenterData": "Behandlungszentrum Daten",
   "addUserBirthdateLabel": "Geburtsdatum",
   "addUserFullNameLabel": "Name",
   "addUserAddressLabel": "Adresse",
