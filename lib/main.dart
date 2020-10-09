@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/config/routes.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
-import 'package:therapy_calendar/model/medication_entry_repository.dart';
+import 'package:therapy_calendar/model/repository/contact_repository.dart';
+import 'package:therapy_calendar/model/repository/medication_entry_repository.dart';
 
 import 'bloc/medication_entry_bloc.dart';
 
@@ -16,8 +18,17 @@ class TherapyCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final routes = getRoutes();
 
-    return BlocProvider(
-      create: (_) => MedicationEntryBloc(MedicationEntryRepository()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => MedicationEntryBloc(MedicationEntryRepository()),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (_) => UserBloc(ContactRepository()),
+          lazy: false,
+        ),
+      ],
       child: MaterialApp(
         localizationsDelegates: [
           S.delegate,
