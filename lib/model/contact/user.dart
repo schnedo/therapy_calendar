@@ -11,6 +11,7 @@ abstract class User implements Contact, Built<User, UserBuilder> {
 
   DateTime get birthday;
   double get bodyMass;
+  String get diagnosis;
 
   static Serializer<User> get serializer => _$userSerializer;
 }
