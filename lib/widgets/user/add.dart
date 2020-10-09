@@ -33,6 +33,15 @@ class AddUserFormField extends FormField<User> {
               builder: (context) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserFullNameLabel,
+                    ),
+                    initialValue: initialValue?.fullName ?? '',
+                    onChanged: formState.nameChanged,
+                    keyboardType: TextInputType.text,
+                    enabled: editable,
+                  ),
                   TextField(
                     decoration: InputDecoration(
                       labelText: S.of(context).addUserBirthdateLabel,
@@ -59,30 +68,6 @@ class AddUserFormField extends FormField<User> {
                           }
                         : null,
                   ),
-                  AddBodyMassFormField(
-                    initialValue: initialValue?.bodyMass,
-                    onChanged: formState.bodyMassChanged,
-                    editable: editable,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: S.of(context).addUserDiagnosisLabel,
-                    ),
-                    initialValue: initialValue?.diagnosis ?? '',
-                    onChanged: formState.diagnosisChanged,
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                    enabled: editable,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: S.of(context).addUserFullNameLabel,
-                    ),
-                    initialValue: initialValue?.fullName ?? '',
-                    onChanged: formState.nameChanged,
-                    keyboardType: TextInputType.text,
-                    enabled: editable,
-                  ),
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: S.of(context).addUserAddressLabel,
@@ -100,6 +85,21 @@ class AddUserFormField extends FormField<User> {
                     onChanged: formState.phoneNumberChanged,
                     keyboardType: TextInputType.phone,
                     enabled: editable,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserDiagnosisLabel,
+                    ),
+                    initialValue: initialValue?.diagnosis ?? '',
+                    onChanged: formState.diagnosisChanged,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    enabled: editable,
+                  ),
+                  AddBodyMassFormField(
+                    initialValue: initialValue?.bodyMass,
+                    onChanged: formState.bodyMassChanged,
+                    editable: editable,
                   ),
                 ],
               ),
