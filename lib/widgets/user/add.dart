@@ -1,118 +1,197 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_picker/flutter_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
+import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/contact/user.dart';
+import 'package:therapy_calendar/widgets/body_mass/add.dart';
 
-class AddUserFormField extends StatefulWidget {
-  const AddUserFormField(
-      {this.onSaved, this.onChanged, Key key, this.initialValue})
-      : super(key: key);
+class AddUserFormField extends FormField<User> {
+  AddUserFormField({
+    this.onChanged,
+    FormFieldSetter<User> onSaved,
+    User initialValue,
+    bool editable = true,
+    Key key,
+  })  : assert(
+          onSaved != null || onChanged != null,
+          'Either onChanged or onSaved have to be present',
+        ),
+        assert(
+          editable || initialValue != null,
+          'If it is not editable, an initialValue has to be provided',
+        ),
+        super(
+          onSaved: onSaved,
+          initialValue: initialValue,
+          builder: (state) {
+            final _AddUserFormFieldState formState = state;
 
-  final User initialValue;
-  // ignore: diagnostic_describe_all_properties
-  final FormFieldSetter<User> onSaved;
+            return Builder(
+              builder: (context) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserBirthdateLabel,
+                      enabled: editable,
+                    ),
+                    readOnly: true,
+                    controller: formState._birthdateController,
+                    onTap: editable
+                        ? () {
+                            Picker(
+                              cancelText: S.of(context).addUserPickerCancelText,
+                              confirmText:
+                                  S.of(context).addUserPickerConfirmText,
+                              adapter: DateTimePickerAdapter(
+                                value: formState._builder.birthdate,
+                                maxValue: DateTime.now(),
+                              ),
+                              title: Text(S.of(context).addUserDateLabel),
+                              onConfirm: (picker, _) {
+                                final DateTimePickerAdapter p = picker.adapter;
+                                formState.dateChanged(p.value);
+                              },
+                            ).showModal(context);
+                          }
+                        : null,
+                  ),
+                  AddBodyMassFormField(
+                    initialValue: initialValue?.bodyMass,
+                    onChanged: formState.bodyMassChanged,
+                    editable: editable,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserDiagnosisLabel,
+                    ),
+                    initialValue: initialValue?.diagnosis ?? '',
+                    onChanged: formState.diagnosisChanged,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    enabled: editable,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserFullNameLabel,
+                    ),
+                    initialValue: initialValue?.fullName ?? '',
+                    onChanged: formState.nameChanged,
+                    keyboardType: TextInputType.text,
+                    enabled: editable,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserAddressLabel,
+                    ),
+                    initialValue: initialValue?.address ?? '',
+                    onChanged: formState.addressChanged,
+                    keyboardType: TextInputType.streetAddress,
+                    enabled: editable,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: S.of(context).addUserPhoneNumberLabel,
+                    ),
+                    initialValue: initialValue?.phoneNumber ?? '',
+                    onChanged: formState.phoneNumberChanged,
+                    keyboardType: TextInputType.phone,
+                    enabled: editable,
+                  ),
+                ],
+              ),
+            );
+          },
+          key: key,
+        );
+
   // ignore: diagnostic_describe_all_properties
   final ValueChanged<User> onChanged;
 
   @override
   _AddUserFormFieldState createState() => _AddUserFormFieldState();
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<User>('initialValue', initialValue));
-  }
 }
 
-class _AddUserFormFieldState extends State<AddUserFormField> {
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: S.of(context).addUserBirthdateLabel,
-              ),
-              enabled: false,
-              controller: _birthdateController,
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: S.of(context).addUserBodyMassLabel,
-              suffixText: 'kg',
-            ),
-            initialValue: widget.initialValue?.bodyMass?.toString() ?? '',
-            onSaved: (value) {
-              _userBuilder.bodyMass = double.parse(value);
-            },
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^[0-9]+(\.[0-9]*)?'))
-            ],
-            validator: (value) => value.isEmpty
-                ? S.of(context).addUserBodyMassInvalidValidation
-                : null,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: S.of(context).addUserDiagnosisLabel,
-            ),
-            initialValue: widget.initialValue?.diagnosis ?? '',
-            onSaved: (value) {
-              _userBuilder.diagnosis = value;
-            },
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: S.of(context).addUserFullNameLabel,
-            ),
-            initialValue: widget.initialValue?.fullName ?? '',
-            onSaved: (value) {
-              _userBuilder.fullName = value;
-            },
-            keyboardType: TextInputType.text,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: S.of(context).addUserAddressLabel,
-            ),
-            initialValue: widget.initialValue?.address ?? '',
-            onSaved: (value) {
-              _userBuilder.address = value;
-            },
-            keyboardType: TextInputType.streetAddress,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: S.of(context).addUserPhoneNumberLabel,
-            ),
-            initialValue: widget.initialValue?.phoneNumber ?? '',
-            onSaved: (value) {
-              _userBuilder.phoneNumber = value;
-            },
-            keyboardType: TextInputType.phone,
-          ),
-        ],
-      );
+class _AddUserFormFieldState extends FormFieldState<User> {
+  UserBuilder _builder;
 
-  UserBuilder _userBuilder;
   final _birthdateController = TextEditingController();
+
+  String get _date => DateFormat.yMd().format(_builder.birthdate);
 
   @override
   void initState() {
-    _userBuilder = widget.initialValue?.toBuilder() ?? UserBuilder()
-      ..bodyMass = 0
-      ..birthdate = DateTime.now()
-      ..address = ''
-      ..diagnosis = ''
-      ..fullName = ''
-      ..phoneNumber = '';
-    _birthdateController.text = _userBuilder.birthdate.toString();
     super.initState();
+    _builder = widget.initialValue?.toBuilder() ?? UserBuilder()
+      ..birthdate = DateTime.now()
+      ..phoneNumber = ''
+      ..address = ''
+      ..fullName = ''
+      ..diagnosis = ''
+      ..bodyMass.amount = 0;
+    _birthdateController.text = _date;
+  }
+
+  void dateChanged(DateTime date) {
+    _builder.birthdate = date;
+    _birthdateController.text = _date;
+    _changed();
+  }
+
+  void bodyMassChanged(BodyMass bodyMass) {
+    _builder.bodyMass = bodyMass.toBuilder();
+    _changed();
+  }
+
+  void diagnosisChanged(String diagnosis) {
+    _builder.diagnosis = diagnosis;
+    _changed();
+  }
+
+  void nameChanged(String name) {
+    _builder.fullName = name;
+    _changed();
+  }
+
+  void addressChanged(String address) {
+    _builder.address = address;
+    _changed();
+  }
+
+  void phoneNumberChanged(String phoneNumber) {
+    _builder.phoneNumber = phoneNumber;
+    _changed();
+  }
+
+  @override
+  bool validate() {
+    try {
+      _builder.build();
+      return true;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void _changed() {
+    setState(() {});
+
+    final AddUserFormField w = widget;
+    try {
+      final user = _builder.build();
+      if (w.onChanged != null) {
+        w.onChanged(user);
+      }
+
+      didChange(user);
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
+      // this should be a built_value error, which we will ignore here
+      // the first change reported will be the change to a correct object
+    }
   }
 }

@@ -32,5 +32,8 @@
   "addUserDiagnosisLabel": "Diagnosis",
   "addUserBodyMassLabel": "Mass",
   "addUserBodyMassInvalidValidation": "Please enter your body mass",
-  "addUserViewSubmitButton": "Save"
+  "addUserViewSubmitButton": "Save",
+  "addUserPickerConfirmText": "Submit",
+  "addUserPickerCancelText": "Cancel",
+  "addUserDateLabel": "Datum"
 }

@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
+import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/contact/doctor.dart';
 import 'package:therapy_calendar/model/contact/treatment_center.dart';
 import 'package:therapy_calendar/model/contact/user.dart';
@@ -24,6 +25,7 @@ const _medicationEntryBuiltListType =
   Doctor,
   TreatmentCenter,
   User,
+  BodyMass,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

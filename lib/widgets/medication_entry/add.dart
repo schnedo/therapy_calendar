@@ -24,7 +24,11 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                 builder: (context) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: S.of(context).addMedicationEntryDateLabel),
+                      controller: formState._dateController,
+                      readOnly: true,
                       onTap: () {
                         Picker(
                           cancelText:
@@ -43,15 +47,13 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           },
                         ).showModal(context);
                       },
-                      child: TextField(
-                        decoration: InputDecoration(
-                            labelText:
-                                S.of(context).addMedicationEntryDateLabel),
-                        enabled: false,
-                        controller: formState._dateController,
-                      ),
                     ),
-                    GestureDetector(
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText:
+                              S.of(context).addMedicationEntryDurationLabel),
+                      controller: formState._durationController,
+                      readOnly: true,
                       onTap: () {
                         Picker(
                           cancelText:
@@ -94,13 +96,6 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           },
                         ).showModal(context);
                       },
-                      child: TextField(
-                        decoration: InputDecoration(
-                            labelText:
-                                S.of(context).addMedicationEntryDurationLabel),
-                        enabled: false,
-                        controller: formState._durationController,
-                      ),
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
