@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
-import 'package:therapy_calendar/model/medication.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/medication.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
 

@@ -1,11 +1,14 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
-import 'package:therapy_calendar/model/batch_number.dart';
-import 'package:therapy_calendar/model/dose.dart';
-import 'package:therapy_calendar/model/medicament.dart';
-import 'package:therapy_calendar/model/medication.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/contact/doctor.dart';
+import 'package:therapy_calendar/model/contact/treatment_center.dart';
+import 'package:therapy_calendar/model/contact/user.dart';
+import 'package:therapy_calendar/model/entry/batch_number.dart';
+import 'package:therapy_calendar/model/entry/dose.dart';
+import 'package:therapy_calendar/model/entry/medicament.dart';
+import 'package:therapy_calendar/model/entry/medication.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 
 part 'serializers.g.dart';
 
@@ -18,6 +21,9 @@ const _medicationEntryBuiltListType =
   Medicament,
   Dose,
   BatchNumber,
+  Doctor,
+  TreatmentCenter,
+  User,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

@@ -1,6 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:therapy_calendar/model/batch_number.dart';
+import 'package:therapy_calendar/model/entry/batch_number.dart';
 
 part 'medicament.g.dart';
 

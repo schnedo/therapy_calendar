@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/model/medication_entry_repository.dart';
 
 class MedicationEntryBloc extends Cubit<List<MedicationEntry>> {

@@ -1,7 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:therapy_calendar/model/medication.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/medication.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 
 MedicationEntry someEntry() => MedicationEntry((medication) => medication
   ..medications = ListBuilder<Medication>([
