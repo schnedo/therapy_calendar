@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/views/doctor_profile.dart';
+import 'package:therapy_calendar/views/treatment_center_profile.dart';
 import 'package:therapy_calendar/views/user_profile.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -35,6 +36,12 @@ class MainDrawer extends StatelessWidget {
               title: Text(S.of(context).doctorData),
               onTap: () {
                 Navigator.pushNamed(context, DoctorProfile.routeName);
+              },
+            ),
+            ListTile(
+              title: Text(S.of(context).treatmentCenterData),
+              onTap: () {
+                Navigator.pushNamed(context, TreatmentCenterProfile.routeName);
               },
             ),
           ],
