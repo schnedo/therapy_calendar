@@ -24,5 +24,13 @@
   "addMedicationEntryMedicationsLabel": "Medications",
   "addMedicationEntryEdictMedicationLabel": "Edit medication",
   "pdfFileName": "Medication-Calendar",
-  "patientData": "Patient Data"
+  "patientData": "Patient Data",
+  "addUserBirthdateLabel": "Birthdate",
+  "addUserFullNameLabel": "Name",
+  "addUserAddressLabel": "Address",
+  "addUserPhoneNumberLabel": "Phone Number",
+  "addUserDiagnosisLabel": "Diagnosis",
+  "addUserBodyMassLabel": "Mass",
+  "addUserBodyMassInvalidValidation": "Please enter your body mass",
+  "addUserViewSubmitButton": "Save"
 }

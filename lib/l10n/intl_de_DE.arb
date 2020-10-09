@@ -13,7 +13,7 @@
   "addMedicationEntryDateLabel": "Datum",
   "addMedicamentNameLabel": "Medikamentenbezeichnung",
   "addMedicamentNameInvalidValidation": "Bitte Medikamentenbezeichnung eingeben",
-  "addMedicationEntryCommentsLabel": "Kommentare",
+  "addMedicationEntryCommentsLabel": "Bemerkungen",
   "addMedicationEntryDurationLabel": "Dauer",
   "addMedicationEntryDurationTimePickerHelpText": "Dauer",
   "addMedicationEntryPickerConfirmText": "Übernehmen",
@@ -24,5 +24,13 @@
   "addMedicationEntryMedicationsLabel": "Medikationen",
   "addMedicationEntryEdictMedicationLabel": "Medikation editieren",
   "pdfFileName": "Medikamenten-Kalender",
-  "patientData": "Patientendaten"
+  "patientData": "Patientendaten",
+  "addUserBirthdateLabel": "Geburtsdatum",
+  "addUserFullNameLabel": "Name",
+  "addUserAddressLabel": "Adresse",
+  "addUserPhoneNumberLabel": "Telefonnummer",
+  "addUserDiagnosisLabel": "Diagnose",
+  "addUserBodyMassLabel": "Gewicht",
+  "addUserBodyMassInvalidValidation": "Please enter your body mass",
+  "addUserViewSubmitButton": "Save"
 }
