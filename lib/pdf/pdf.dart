@@ -7,8 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:therapy_calendar/generated/l10n.dart';
-import 'package:therapy_calendar/model/medication.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/medication.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 
 extension _PdfMedication on Medication {
   String toPdf() => '${medicament.name} / ${medicament.batchNumber}: $dose';

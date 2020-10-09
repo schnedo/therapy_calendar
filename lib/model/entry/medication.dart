@@ -1,7 +1,7 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:therapy_calendar/model/dose.dart';
-import 'package:therapy_calendar/model/medicament.dart';
+import 'package:therapy_calendar/model/entry/dose.dart';
+import 'package:therapy_calendar/model/entry/medicament.dart';
 
 part 'medication.g.dart';
 

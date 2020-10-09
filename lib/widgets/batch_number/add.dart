@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
-import 'package:therapy_calendar/model/batch_number.dart';
+import 'package:therapy_calendar/model/entry/batch_number.dart';
 
 class AddBatchNumberFormField extends StatelessWidget {
   const AddBatchNumberFormField(

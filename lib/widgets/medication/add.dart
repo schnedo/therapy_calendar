@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:therapy_calendar/model/dose.dart';
-import 'package:therapy_calendar/model/medicament.dart';
-import 'package:therapy_calendar/model/medication.dart';
+import 'package:therapy_calendar/model/entry/dose.dart';
+import 'package:therapy_calendar/model/entry/medicament.dart';
+import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/widgets/dose/add.dart';
 import 'package:therapy_calendar/widgets/medicament/add.dart';
 

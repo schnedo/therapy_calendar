@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/model/serializers.dart';
 
 class MedicationEntryRepository {

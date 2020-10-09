@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:therapy_calendar/model/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
 
 extension _Formatting on Duration {
