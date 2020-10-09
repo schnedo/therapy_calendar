@@ -23,5 +23,6 @@
   "addMedicationEntryAddMedicationLabel": "Neue Medikation",
   "addMedicationEntryMedicationsLabel": "Medikationen",
   "addMedicationEntryEdictMedicationLabel": "Medikation editieren",
-  "pdfFileName": "Medikamenten-Kalender"
+  "pdfFileName": "Medikamenten-Kalender",
+  "patientData": "Patientendaten"
 }

@@ -23,5 +23,6 @@
   "addMedicationEntryAddMedicationLabel": "New medication",
   "addMedicationEntryMedicationsLabel": "Medications",
   "addMedicationEntryEdictMedicationLabel": "Edit medication",
-  "pdfFileName": "Medication-Calendar"
+  "pdfFileName": "Medication-Calendar",
+  "patientData": "Patient Data"
 }

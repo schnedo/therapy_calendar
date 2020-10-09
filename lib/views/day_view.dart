@@ -9,6 +9,7 @@ import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/pdf/pdf.dart';
 import 'package:therapy_calendar/views/add_medication_entry.dart';
+import 'package:therapy_calendar/widgets/main_drawer.dart';
 import 'package:therapy_calendar/widgets/medication_entry/card.dart';
 import 'package:tuple/tuple.dart';
 
@@ -31,6 +32,7 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        drawer: MainDrawer(),
         appBar: AppBar(
           title: Text(S.of(context).dayViewTitle),
           actions: [
@@ -38,7 +40,7 @@ class DayView extends StatelessWidget {
               icon: const Icon(Icons.print),
               onPressed: () => toPdf(
                   S.of(context), context.bloc<MedicationEntryBloc>().state),
-            )
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
