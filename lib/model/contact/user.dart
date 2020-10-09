@@ -9,7 +9,7 @@ abstract class User implements Contact, Built<User, UserBuilder> {
 
   User._();
 
-  DateTime get birthday;
+  DateTime get birthdate;
   double get bodyMass;
   String get diagnosis;
 
