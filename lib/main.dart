@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:therapy_calendar/bloc/doctor_bloc.dart';
+import 'package:therapy_calendar/bloc/treatment_center_bloc.dart';
 import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/config/routes.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
@@ -14,6 +16,10 @@ void main() {
 }
 
 class TherapyCalendar extends StatelessWidget {
+  static const _userFileName = 'user.json';
+  static const _doctorFileName = 'doctor.json';
+  static const _treatmentCenterFileName = 'treatmentCenter.json';
+
   @override
   Widget build(BuildContext context) {
     final routes = getRoutes();
@@ -25,7 +31,16 @@ class TherapyCalendar extends StatelessWidget {
           lazy: false,
         ),
         BlocProvider(
-          create: (_) => UserBloc(ContactRepository()),
+          create: (_) => UserBloc(ContactRepository(_userFileName)),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (_) => DoctorBloc(ContactRepository(_doctorFileName)),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (_) =>
+              TreatmentCenterBloc(ContactRepository(_treatmentCenterFileName)),
           lazy: false,
         ),
       ],

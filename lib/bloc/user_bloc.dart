@@ -3,14 +3,14 @@ import 'package:therapy_calendar/model/contact/user.dart';
 import 'package:therapy_calendar/model/repository/contact_repository.dart';
 
 class UserBloc extends Cubit<User> {
-  UserBloc(this._contactRepository) : super(null) {
-    _contactRepository.get().then(emit);
+  UserBloc(this._userRepository) : super(null) {
+    _userRepository.get().then(emit);
   }
 
-  final ContactRepository<User> _contactRepository;
+  final ContactRepository<User> _userRepository;
 
   Future<void> update(User user) async {
-    await _contactRepository.save(user);
+    await _userRepository.save(user);
     emit(user);
   }
 }
