@@ -5,9 +5,7 @@ import 'package:therapy_calendar/model/repository/repository.dart';
 import 'package:therapy_calendar/model/serializers.dart';
 
 class ContactRepository<T extends Contact> extends Repository {
-  ContactRepository() : super(_fileName);
-
-  static const _fileName = 'contact_entries.json';
+  ContactRepository(String fileName) : super(fileName);
 
   Future<T> get() async {
     final jsonString = await read();
