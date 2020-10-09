@@ -9,6 +9,7 @@ abstract class User implements Contact, Built<User, UserBuilder> {
 
   User._();
 
+  DateTime get birthday;
   double get bodyMass;
 
   static Serializer<User> get serializer => _$userSerializer;
