@@ -8,7 +8,6 @@ import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
 class AddMedicationEntry extends StatelessWidget {
-
   AddMedicationEntry({Key key, this.initialValue}) : super(key: key);
 
   static const routeName = '/medication_entry/add';
@@ -25,37 +24,38 @@ class AddMedicationEntry extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    AddMedicationEntryFormField(
-                      initialValue: initialValue,
-                      onSaved: (entry) {
-                        Future(() {
-                          final userBloc = context.bloc<UserBloc>();
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  AddMedicationEntryFormField(
+                    initialValue: initialValue,
+                    onSaved: (entry) {
+                      Future(() {
+                        final userBloc = context.bloc<UserBloc>();
 
-                          if (userBloc.state != null) {
-                            final updatedUser = userBloc.state.rebuild(
-                              (b) => b..bodyMass = entry.bodyMass.toBuilder(),
-                            );
-                            userBloc.update(updatedUser);
-                          }
-                        });
-                        context.bloc<MedicationEntryBloc>().add(entry);
-                      },
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                          Navigator.pop(context);
+                        if (userBloc.state != null) {
+                          final updatedUser = userBloc.state.rebuild(
+                            (b) => b..bodyMass = entry.bodyMass.toBuilder(),
+                          );
+                          userBloc.update(updatedUser);
                         }
-                      },
-                      child: Text(
-                          S.of(context).addMedicationEntryViewSubmitButton),
-                    )
-                  ],
-                )),
+                      });
+                      context.bloc<MedicationEntryBloc>().add(entry);
+                    },
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+                        Navigator.pop(context);
+                      }
+                    },
+                    child:
+                        Text(S.of(context).addMedicationEntryViewSubmitButton),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       );
@@ -63,6 +63,7 @@ class AddMedicationEntry extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<MedicationEntry>('initialValue', initialValue));
+    properties.add(
+        DiagnosticsProperty<MedicationEntry>('initialValue', initialValue));
   }
 }
