@@ -15,12 +15,16 @@ import 'package:therapy_calendar/widgets/medication/card.dart';
 String _formatValue(num number) => number.toString().padLeft(2, '0');
 
 class AddMedicationEntryFormField extends FormField<MedicationEntry> {
-  AddMedicationEntryFormField(
-      {this.onChanged, FormFieldSetter<MedicationEntry> onSaved, Key key})
-      : assert(onSaved != null || onChanged != null,
+  AddMedicationEntryFormField({
+    MedicationEntry initialValue,
+    this.onChanged,
+    FormFieldSetter<MedicationEntry> onSaved,
+    Key key,
+  })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
             onSaved: onSaved,
+            initialValue: initialValue,
             builder: (state) {
               final _AddMedicationEntryFormFieldState formState = state;
 
@@ -103,7 +107,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     ),
                     AddBodyMassFormField(
                       onChanged: formState.bodyMassChanged,
-                      initialValue: context.bloc<UserBloc>().state?.bodyMass,
+                      initialValue: formState._builder.bodyMass,
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
@@ -121,6 +125,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       onChanged: formState.commentChanged,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
+                      initialValue: formState._builder.comments,
                     ),
                   ],
                 ),
@@ -153,7 +158,7 @@ extension _ReplaceMedication on ListBuilder<Medication> {
 
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
-  final MedicationEntryBuilder _builder = MedicationEntryBuilder();
+  MedicationEntryBuilder _builder;
 
   String get _date => DateFormat.yMd().format(_builder.date);
 
@@ -162,12 +167,14 @@ class _AddMedicationEntryFormFieldState
 
   @override
   void initState() {
-    _builder
-      ..date = DateTime.now()
-      ..duration = const Duration(hours: 1, minutes: 0)
-      ..comments = ''
-      ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ?? BodyMassBuilder()
-      ..medications = ListBuilder();
+    _builder = widget.initialValue?.toBuilder() ??
+        (MedicationEntryBuilder()
+          ..date = DateTime.now()
+          ..duration = const Duration(hours: 1, minutes: 0)
+          ..comments = ''
+          ..bodyMass =
+              context.bloc<UserBloc>().state?.bodyMass ?? BodyMassBuilder()
+          ..medications = ListBuilder());
     _dateController.text = _date;
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';
