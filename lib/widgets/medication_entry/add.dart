@@ -305,4 +305,11 @@ class _AddMedicationEntryFormFieldState
             ],
           ))
       .toList();
+
+  @override
+  void dispose() {
+    _dateController.dispose();
+    _durationController.dispose();
+    super.dispose();
+  }
 }
