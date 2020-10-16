@@ -18,7 +18,13 @@ class _UserProfileState extends State<UserProfile> {
   bool _editable = false;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => BlocBuilder<UserBloc, User>(
+    builder: (context, user) {
+      if (user == null && !_editable) {
+        _editable = true;
+      }
+
+      return Scaffold(
         appBar: AppBar(
           title: Text(S.of(context).patientData),
           actions: [
@@ -40,18 +46,10 @@ class _UserProfileState extends State<UserProfile> {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: [
-                  BlocBuilder<UserBloc, User>(
-                    builder: (context, user) {
-                      if (user == null && !_editable) {
-                        _editable = true;
-                      }
-
-                      return AddUserFormField(
-                        onSaved: context.bloc<UserBloc>().update,
-                        editable: _editable,
-                        initialValue: user,
-                      );
-                    },
+                  AddUserFormField(
+                    onSaved: context.bloc<UserBloc>().update,
+                    editable: _editable,
+                    initialValue: user,
                   ),
                   if (_editable)
                     RaisedButton(
@@ -71,4 +69,6 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ),
       );
+    },
+  );
 }

@@ -29,6 +29,7 @@
   "treatmentCenterData": "Treatment Center Data",
   "addUserBirthdateLabel": "Birthdate",
   "addUserFullNameLabel": "Name",
+  "addUserFullNameInvalidValidation": "Please enter your name",
   "addUserAddressLabel": "Address",
   "addUserPhoneNumberLabel": "Phone Number",
   "addUserDiagnosisLabel": "Diagnosis",
