@@ -22,6 +22,13 @@ class MedicationEntryCard extends StatelessWidget {
 
   String get date => DateFormat.E().add_d().format(entry.date);
 
+  List<Widget> get comments => entry.comments.isEmpty
+      ? []
+      : [
+          const Divider(),
+          Text(entry.comments),
+        ];
+
   @override
   Widget build(BuildContext context) => Card(
         child: Padding(
@@ -36,7 +43,12 @@ class MedicationEntryCard extends StatelessWidget {
                       .map((med) => MedicationCard(medication: med))
                       .toList(),
                 ),
-                subtitle: Text(entry.comments),
+                subtitle: Column(
+                  children: [
+                    Text(entry.bodyMass.toString()),
+                    ...comments,
+                  ],
+                ),
                 trailing: Text(entry.duration.formatted()),
               ),
             ],

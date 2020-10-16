@@ -1,7 +1,9 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
@@ -101,6 +103,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     ),
                     AddBodyMassFormField(
                       onChanged: formState.bodyMassChanged,
+                      initialValue: context.bloc<UserBloc>().state?.bodyMass,
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),

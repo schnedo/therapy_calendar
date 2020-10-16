@@ -46,13 +46,15 @@ Future<void> toPdf(S s, List<MedicationEntry> entries) async {
               s.dayViewMedicationHeader,
               s.dayViewDurationHeader,
               s.addMedicationEntryCommentsLabel,
+              s.pdfBodyMass
             ],
             ...entries
                 .map((e) => [
                       e.date.toPdf(),
                       e.medications.toPdf(),
                       e.duration.toPdf(),
-                      e.comments
+                      e.comments,
+                      e.bodyMass,
                     ])
                 .toList()
           ],

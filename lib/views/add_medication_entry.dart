@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
+import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
@@ -23,6 +24,17 @@ class AddMedicationEntry extends StatelessWidget {
                   children: [
                     AddMedicationEntryFormField(
                       onSaved: (entry) {
+                        Future(() {
+                          final userBloc = context.bloc<UserBloc>();
+
+                          if (userBloc.state != null) {
+                            final updatedUser = userBloc.state.rebuild(
+                              (b) => b..bodyMass = entry.bodyMass.toBuilder(),
+                            );
+                            userBloc.update(updatedUser);
+                          }
+                        });
+
                         context.bloc<MedicationEntryBloc>().add(entry);
                       },
                     ),
