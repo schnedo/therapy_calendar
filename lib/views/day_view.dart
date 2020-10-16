@@ -49,64 +49,58 @@ class DayView extends StatelessWidget {
           },
           child: const Icon(Icons.add),
         ),
-        body: Column(
-          children: [
-            ListTile(
-                title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(S.of(context).dayViewDateHeader),
-                Text(S.of(context).dayViewMedicationHeader),
-                Text(S.of(context).dayViewDurationHeader),
-              ],
-            )),
-            const Divider(),
-            Expanded(
-                child: BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
-              buildWhen: (_, __) => true,
-              builder: (context, all) {
-                if (all == null) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).primaryColorLight),
-                      ),
-                    ),
-                  );
-                }
-                final entriesByMonth = all.chunk();
-
-                return ListView.builder(
-                  itemBuilder: (ctx, index) {
-                    final entriesInSameMonth = entriesByMonth[index];
-
-                    final cards = entriesInSameMonth
-                        .map(
-                          (entry) => GestureDetector(
-                            onLongPressStart: (details) =>
-                                longPressMenu(ctx, details, entry),
-                            child: MedicationEntryCard(entry: entry),
-                          ),
-                        )
-                        .toList();
-
-                    return StickyHeader(
-                      header: _TextDivider(
-                        text: _dateFormatter
-                            .format(entriesInSameMonth.first.date),
-                      ),
-                      content: Column(
-                        children: cards,
+        body: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Column(
+            children: [
+              Expanded(
+                  child:
+                      BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
+                buildWhen: (_, __) => true,
+                builder: (context, all) {
+                  if (all == null) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColorLight),
+                        ),
                       ),
                     );
-                  },
-                  itemCount: entriesByMonth.length,
-                );
-              },
-            )),
-          ],
+                  }
+                  final entriesByMonth = all.chunk();
+
+                  return ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      final entriesInSameMonth = entriesByMonth[index];
+
+                      final cards = entriesInSameMonth
+                          .map(
+                            (entry) => GestureDetector(
+                              onLongPressStart: (details) =>
+                                  longPressMenu(ctx, details, entry),
+                              child: MedicationEntryCard(entry: entry),
+                            ),
+                          )
+                          .toList();
+
+                      return StickyHeader(
+                        header: _TextDivider(
+                          text: _dateFormatter
+                              .format(entriesInSameMonth.first.date),
+                        ),
+                        content: Column(
+                          children: cards,
+                        ),
+                      );
+                    },
+                    itemCount: entriesByMonth.length,
+                  );
+                },
+              )),
+            ],
+          ),
         ),
       );
 
