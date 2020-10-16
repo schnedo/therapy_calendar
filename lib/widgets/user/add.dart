@@ -197,4 +197,10 @@ class _AddUserFormFieldState extends FormFieldState<User> {
       // the first change reported will be the change to a correct object
     }
   }
+
+  @override
+  void dispose() {
+    _birthdateController.dispose();
+    super.dispose();
+  }
 }
