@@ -12,6 +12,7 @@ import 'package:therapy_calendar/model/repository/medication_entry_repository.da
 import 'bloc/medication_entry_bloc.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(TherapyCalendar());
 }
 
