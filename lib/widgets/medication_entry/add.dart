@@ -153,11 +153,7 @@ extension _ReplaceMedication on ListBuilder<Medication> {
 
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
-  final MedicationEntryBuilder _builder = MedicationEntryBuilder()
-    ..date = DateTime.now()
-    ..duration = const Duration(hours: 1, minutes: 0)
-    ..comments = ''
-    ..medications = ListBuilder();
+  final MedicationEntryBuilder _builder = MedicationEntryBuilder();
 
   String get _date => DateFormat.yMd().format(_builder.date);
 
@@ -166,6 +162,12 @@ class _AddMedicationEntryFormFieldState
 
   @override
   void initState() {
+    _builder
+      ..date = DateTime.now()
+      ..duration = const Duration(hours: 1, minutes: 0)
+      ..comments = ''
+      ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ?? BodyMassBuilder()
+      ..medications = ListBuilder();
     _dateController.text = _date;
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';
