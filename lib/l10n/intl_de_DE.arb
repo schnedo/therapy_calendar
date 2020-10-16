@@ -38,5 +38,6 @@
   "addUserViewSubmitButton": "Übernehmen",
   "addUserPickerConfirmText": "Übernehmen",
   "addUserPickerCancelText": "Abbrechen",
-  "addUserDateLabel": "Datum"
+  "addUserDateLabel": "Datum",
+  "pdfBodyMass": "Gewicht"
 }
