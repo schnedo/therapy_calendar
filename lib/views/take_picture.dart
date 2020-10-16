@@ -1,27 +1,24 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class TakePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cameras = availableCameras();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Camera testing'),
-      ),
-      body: FutureBuilder<List<CameraDescription>>(
-        future: cameras,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return TakePictureScreen(cameras: snapshot.data);
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
+    return FutureBuilder<List<CameraDescription>>(
+      future: cameras,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return TakePictureScreen(cameras: snapshot.data);
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }
@@ -51,7 +48,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
 
     _controller = CameraController(
       widget.cameras.first,
-      ResolutionPreset.low,
+      ResolutionPreset.medium,
     );
 
     _initializeController = _controller.initialize();
@@ -64,15 +61,33 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => FutureBuilder(
-        future: _initializeController,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(_controller);
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+  Widget build(BuildContext context) => Scaffold(
+        body: FutureBuilder(
+          future: _initializeController,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return CameraPreview(_controller);
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            try {
+              await _initializeController;
+
+              final path = join(
+                (await getTemporaryDirectory()).path,
+                '${DateTime.now()}.png',
+              );
+              await _controller.takePicture(path);
+            } catch (e) {
+              print(e);
+            }
+          },
+          child: const Icon(Icons.camera_alt),
+        ),
       );
 }
