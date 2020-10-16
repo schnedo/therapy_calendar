@@ -44,8 +44,8 @@ class MedicationEntryCard extends StatelessWidget {
                   children: [
                     Text(entry.duration.formatted()),
                     Container(
-                      child: const Divider(),
                       width: 40,
+                      child: const Divider(),
                     ),
                     Text(entry.bodyMass.toString()),
                   ],
