@@ -7,18 +7,41 @@ import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
-class AddMedicationEntry extends StatelessWidget {
-  AddMedicationEntry({Key key, this.initialValue}) : super(key: key);
+class AddMedicationEntry extends StatefulWidget {
+  const AddMedicationEntry({Key key, this.initialValue}) : super(key: key);
 
   static const routeName = '/medication_entry/add';
 
-  final _formKey = GlobalKey<FormState>();
   final MedicationEntry initialValue;
+
+  @override
+  _AddMedicationEntryState createState() => _AddMedicationEntryState();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+        DiagnosticsProperty<MedicationEntry>('initialValue', initialValue));
+  }
+}
+
+class _AddMedicationEntryState extends State<AddMedicationEntry> {
+  final _formKey = GlobalKey<FormState>();
+
+  bool _editable;
+
+  @override
+  void initState() {
+    super.initState();
+    _editable = widget.initialValue != null;
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).addMedicationEntryViewTitle),
+          title: Text(_editable
+              ? S.of(context).medicationEntryViewTitle
+              : S.of(context).addMedicationEntryViewTitle),
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -28,7 +51,7 @@ class AddMedicationEntry extends StatelessWidget {
               child: Column(
                 children: [
                   AddMedicationEntryFormField(
-                    initialValue: initialValue,
+                    initialValue: widget.initialValue,
                     onSaved: (entry) {
                       Future(() {
                         final userBloc = context.bloc<UserBloc>();
@@ -59,11 +82,4 @@ class AddMedicationEntry extends StatelessWidget {
           ),
         ),
       );
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(
-        DiagnosticsProperty<MedicationEntry>('initialValue', initialValue));
-  }
 }
