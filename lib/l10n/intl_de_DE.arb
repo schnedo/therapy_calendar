@@ -25,7 +25,7 @@
   "addMedicationEntryEdictMedicationLabel": "Medikation editieren",
   "pdfFileName": "Medikamenten-Kalender",
   "patientData": "Patientendaten",
-  "doctorData": "Doktordaten",
+  "doctorData": "Hausarztdaten",
   "treatmentCenterData": "Behandlungszentrum Daten",
   "addUserBirthdateLabel": "Geburtsdatum",
   "addUserFullNameLabel": "Name",
