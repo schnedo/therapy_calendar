@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
+import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
+import 'package:therapy_calendar/widgets/body_mass/add.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
 
@@ -97,6 +99,9 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                         ).showModal(context);
                       },
                     ),
+                    AddBodyMassFormField(
+                      onChanged: formState.bodyMassChanged,
+                    ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
                     ...formState.medicationWidgets(),
@@ -167,6 +172,11 @@ class _AddMedicationEntryFormFieldState
       didChange(_builder.build());
       // ignore: avoid_catches_without_on_clauses
     } catch (_) {}
+  }
+
+  void bodyMassChanged(BodyMass bodyMass) {
+    _builder.bodyMass = bodyMass;
+    _changed();
   }
 
   void dateChanged(DateTime date) {
