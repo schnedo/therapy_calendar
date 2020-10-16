@@ -40,6 +40,9 @@ class AddUserFormField extends FormField<User> {
                     initialValue: initialValue?.fullName ?? '',
                     onChanged: formState.nameChanged,
                     keyboardType: TextInputType.text,
+                    validator: (value) => value.isEmpty
+                        ? S.of(context).addUserFullNameInvalidValidation
+                        : null,
                     enabled: editable,
                   ),
                   TextField(
