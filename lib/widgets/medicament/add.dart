@@ -8,16 +8,17 @@ import 'package:therapy_calendar/widgets/batch_number/add.dart';
 
 class AddMedicamentFormField extends FormField<Medicament> {
   AddMedicamentFormField(
-      {FormFieldSetter<Medicament> onSaved,
+      {FormFieldSetter<Medicament>? onSaved,
       this.onChanged,
-      Medicament initialValue})
+      Medicament? initialValue})
       : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
             initialValue: initialValue,
             onSaved: onSaved,
             builder: (field) {
-              final _AddMedicamentFormFieldState formState = field;
+              // ignore: avoid_as
+              final formState = field as _AddMedicamentFormFieldState;
 
               return Builder(
                 builder: (context) => Column(
@@ -31,7 +32,7 @@ class AddMedicamentFormField extends FormField<Medicament> {
                       decoration: InputDecoration(
                         labelText: S.of(context).addMedicamentNameLabel,
                       ),
-                      validator: (value) => value.isEmpty
+                      validator: (value) => value!.isEmpty
                           ? S.of(context).addMedicamentNameInvalidValidation
                           : null,
                       onChanged: formState.nameChanged,
@@ -42,11 +43,10 @@ class AddMedicamentFormField extends FormField<Medicament> {
             });
 
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<Medicament> onChanged;
+  final ValueChanged<Medicament>? onChanged;
 
   @override
-  _AddMedicamentFormFieldState createState() =>
-      _AddMedicamentFormFieldState(initialValue);
+  _AddMedicamentFormFieldState createState() => _AddMedicamentFormFieldState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -57,10 +57,13 @@ class AddMedicamentFormField extends FormField<Medicament> {
 }
 
 class _AddMedicamentFormFieldState extends FormFieldState<Medicament> {
-  _AddMedicamentFormFieldState(Medicament initialValue)
-      : _builder = initialValue?.toBuilder() ?? MedicamentBuilder();
+  late final MedicamentBuilder _builder;
 
-  final MedicamentBuilder _builder;
+  @override
+  void initState() {
+    super.initState();
+    _builder = widget.initialValue?.toBuilder() ?? MedicamentBuilder();
+  }
 
   void batchNumberChanged(BatchNumber batchNumber) {
     _builder.batchNumber = batchNumber.toBuilder();
@@ -84,12 +87,13 @@ class _AddMedicamentFormFieldState extends FormFieldState<Medicament> {
   }
 
   void _changed() {
-    final AddMedicamentFormField f = widget;
+    // ignore: avoid_as
+    final w = widget as AddMedicamentFormField;
     try {
       final value = _builder.build();
 
-      if (f.onChanged != null) {
-        f.onChanged(value);
+      if (w.onChanged != null) {
+        w.onChanged!(value);
       }
 
       didChange(value);

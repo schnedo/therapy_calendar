@@ -150,6 +150,8 @@ linter:
     - void_checks
 
 analyzer:
+  enable-experiment:
+    - non-nullable
   exclude:
     - "**/*.g.dart"
     - "lib/generated_plugin_registrant.dart"

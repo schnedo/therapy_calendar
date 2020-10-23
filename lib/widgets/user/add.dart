@@ -11,10 +11,10 @@ import 'package:therapy_calendar/widgets/body_mass/add.dart';
 class AddUserFormField extends FormField<User> {
   AddUserFormField({
     this.onChanged,
-    FormFieldSetter<User> onSaved,
-    User initialValue,
+    FormFieldSetter<User>? onSaved,
+    User? initialValue,
     bool editable = true,
-    Key key,
+    Key? key,
   })  : assert(
           onSaved != null || onChanged != null,
           'Either onChanged or onSaved have to be present',
@@ -27,7 +27,8 @@ class AddUserFormField extends FormField<User> {
           onSaved: onSaved,
           initialValue: initialValue,
           builder: (state) {
-            final _AddUserFormFieldState formState = state;
+            // ignore: avoid_as
+            final formState = state as _AddUserFormFieldState;
 
             return Builder(
               builder: (context) => Column(
@@ -40,7 +41,7 @@ class AddUserFormField extends FormField<User> {
                     initialValue: initialValue?.fullName ?? '',
                     onChanged: formState.nameChanged,
                     keyboardType: TextInputType.text,
-                    validator: (value) => value.isEmpty
+                    validator: (value) => value!.isEmpty
                         ? S.of(context).addUserFullNameInvalidValidation
                         : null,
                     enabled: editable,
@@ -64,7 +65,9 @@ class AddUserFormField extends FormField<User> {
                               ),
                               title: Text(S.of(context).addUserDateLabel),
                               onConfirm: (picker, _) {
-                                final DateTimePickerAdapter p = picker.adapter;
+                                final p =
+                                    // ignore: avoid_as
+                                    picker.adapter as DateTimePickerAdapter;
                                 formState.dateChanged(p.value);
                               },
                             ).showModal(context);
@@ -112,14 +115,14 @@ class AddUserFormField extends FormField<User> {
         );
 
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<User> onChanged;
+  final ValueChanged<User>? onChanged;
 
   @override
   _AddUserFormFieldState createState() => _AddUserFormFieldState();
 }
 
 class _AddUserFormFieldState extends FormFieldState<User> {
-  UserBuilder _builder;
+  late final UserBuilder _builder;
 
   final _birthdateController = TextEditingController();
 
@@ -183,11 +186,12 @@ class _AddUserFormFieldState extends FormFieldState<User> {
   void _changed() {
     setState(() {});
 
-    final AddUserFormField w = widget;
+    // ignore: avoid_as
+    final w = widget as AddUserFormField;
     try {
       final user = _builder.build();
       if (w.onChanged != null) {
-        w.onChanged(user);
+        w.onChanged!(user);
       }
 
       didChange(user);

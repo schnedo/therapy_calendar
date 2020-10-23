@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,6 +13,7 @@ import 'package:therapy_calendar/model/repository/medication_entry_repository.da
 import 'bloc/medication_entry_bloc.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(TherapyCalendar());
 }
 

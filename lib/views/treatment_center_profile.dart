@@ -19,9 +19,9 @@ class _TreatmentCenterProfileState extends State<TreatmentCenterProfile> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<TreatmentCenterBloc, TreatmentCenter>(
-        builder: (context, doctor) {
-          if (doctor == null && !_editable) {
+      BlocBuilder<TreatmentCenterBloc, TreatmentCenter?>(
+        builder: (context, treatmentCenter) {
+          if (treatmentCenter == null && !_editable) {
             _editable = true;
           }
 
@@ -48,15 +48,21 @@ class _TreatmentCenterProfileState extends State<TreatmentCenterProfile> {
                   child: Column(
                     children: [
                       AddTreatmentCenterFormField(
-                        onSaved: context.bloc<TreatmentCenterBloc>().update,
+                        onSaved: (newValue) {
+                          if (newValue != null) {
+                            context
+                                .bloc<TreatmentCenterBloc>()
+                                .update(newValue);
+                          }
+                        },
                         editable: _editable,
-                        initialValue: doctor,
+                        initialValue: treatmentCenter,
                       ),
                       if (_editable)
                         RaisedButton(
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState!.save();
                               setState(() {
                                 _editable = false;
                               });

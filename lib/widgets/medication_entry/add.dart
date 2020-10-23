@@ -15,14 +15,19 @@ import 'package:therapy_calendar/widgets/medication/card.dart';
 String _formatValue(num number) => number.toString().padLeft(2, '0');
 
 class AddMedicationEntryFormField extends FormField<MedicationEntry> {
-  AddMedicationEntryFormField(
-      {this.onChanged, FormFieldSetter<MedicationEntry> onSaved, Key key})
-      : assert(onSaved != null || onChanged != null,
+  AddMedicationEntryFormField({
+    MedicationEntry? initialValue,
+    this.onChanged,
+    FormFieldSetter<MedicationEntry>? onSaved,
+    Key? key,
+  })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
             onSaved: onSaved,
+            initialValue: initialValue,
             builder: (state) {
-              final _AddMedicationEntryFormFieldState formState = state;
+              // ignore: avoid_as
+              final formState = state as _AddMedicationEntryFormFieldState;
 
               return Builder(
                 builder: (context) => Column(
@@ -46,7 +51,8 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           title:
                               Text(S.of(context).addMedicationEntryDateLabel),
                           onConfirm: (picker, _) {
-                            final DateTimePickerAdapter p = picker.adapter;
+                            // ignore: avoid_as
+                            final p = picker.adapter as DateTimePickerAdapter;
                             formState.dateChanged(p.value);
                           },
                         ).showModal(context);
@@ -103,7 +109,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     ),
                     AddBodyMassFormField(
                       onChanged: formState.bodyMassChanged,
-                      initialValue: context.bloc<UserBloc>().state?.bodyMass,
+                      initialValue: formState._bodyMass,
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
@@ -121,6 +127,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       onChanged: formState.commentChanged,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
+                      initialValue: formState._builder.comments,
                     ),
                   ],
                 ),
@@ -131,7 +138,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
   static const stepSize = 5;
 
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<MedicationEntry> onChanged;
+  final ValueChanged<MedicationEntry>? onChanged;
 
   @override
   _AddMedicationEntryFormFieldState createState() =>
@@ -153,21 +160,31 @@ extension _ReplaceMedication on ListBuilder<Medication> {
 
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
-  final MedicationEntryBuilder _builder = MedicationEntryBuilder();
+  late final MedicationEntryBuilder _builder;
 
   String get _date => DateFormat.yMd().format(_builder.date);
+  BodyMass? get _bodyMass {
+    try {
+      return _builder.bodyMass.build();
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
+      return null;
+    }
+  }
 
   final _dateController = TextEditingController();
   final _durationController = TextEditingController();
 
   @override
   void initState() {
-    _builder
-      ..date = DateTime.now()
-      ..duration = const Duration(hours: 1, minutes: 0)
-      ..comments = ''
-      ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ?? BodyMassBuilder()
-      ..medications = ListBuilder();
+    _builder = widget.initialValue?.toBuilder() ??
+        (MedicationEntryBuilder()
+          ..date = DateTime.now()
+          ..duration = const Duration(hours: 1, minutes: 0)
+          ..comments = ''
+          ..bodyMass = context.bloc<UserBloc>().state?.bodyMass.toBuilder() ??
+              BodyMassBuilder()
+          ..medications = ListBuilder());
     _dateController.text = _date;
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';
@@ -180,7 +197,7 @@ class _AddMedicationEntryFormFieldState
   }
 
   void bodyMassChanged(BodyMass bodyMass) {
-    _builder.bodyMass = bodyMass;
+    _builder.bodyMass = bodyMass.toBuilder();
     _changed();
   }
 
@@ -195,7 +212,10 @@ class _AddMedicationEntryFormFieldState
     _changed();
   }
 
-  void addMedication(Medication medication) {
+  void addMedication(Medication? medication) {
+    if (medication == null) {
+      return;
+    }
     _builder.medications.add(medication);
     _changed();
   }
@@ -221,11 +241,12 @@ class _AddMedicationEntryFormFieldState
 
   void _changed() {
     setState(() {});
-    final AddMedicationEntryFormField f = widget;
+    // ignore: avoid_as
+    final w = widget as AddMedicationEntryFormField;
     try {
       final value = _builder.build();
-      if (f.onChanged != null) {
-        f.onChanged(value);
+      if (w.onChanged != null) {
+        w.onChanged!(value);
       }
 
       didChange(value);
@@ -236,7 +257,7 @@ class _AddMedicationEntryFormFieldState
     }
   }
 
-  void showMedicationDialog(BuildContext context, {Medication medication}) {
+  void showMedicationDialog(BuildContext context, {Medication? medication}) {
     showDialog(
       context: context,
       builder: (context) {
@@ -254,8 +275,8 @@ class _AddMedicationEntryFormFieldState
             ),
             TextButton(
               onPressed: () {
-                if (subFormKey.currentState.validate()) {
-                  subFormKey.currentState.save();
+                if (subFormKey.currentState?.validate() ?? false) {
+                  subFormKey.currentState!.save();
                   Navigator.pop(context);
                 }
               },
@@ -269,7 +290,7 @@ class _AddMedicationEntryFormFieldState
                   ? addMedication
                   : (newMedication) {
                       _builder.medications
-                          .replaceMedication(medication, newMedication);
+                          .replaceMedication(medication, newMedication!);
                       _changed();
                     },
               initialValue: medication,

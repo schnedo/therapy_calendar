@@ -10,16 +10,16 @@ class MainDrawer extends StatelessWidget {
         child: Column(
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+              decoration: BoxDecoration(color: Theme.of(context)!.primaryColor),
               child: Stack(
                 children: [
                   Positioned(
                     bottom: 12,
                     child: Text(
                       S.of(context).dayViewTitle,
-                      style: Theme.of(context)
+                      style: Theme.of(context)!
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(color: Colors.white),
                     ),
                   )

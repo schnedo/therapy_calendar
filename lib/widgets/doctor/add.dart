@@ -5,10 +5,10 @@ import 'package:therapy_calendar/model/contact/doctor.dart';
 class AddDoctorFormField extends FormField<Doctor> {
   AddDoctorFormField({
     this.onChanged,
-    FormFieldSetter<Doctor> onSaved,
-    Doctor initialValue,
+    FormFieldSetter<Doctor>? onSaved,
+    Doctor? initialValue,
     bool editable = true,
-    Key key,
+    Key? key,
   })  : assert(
           onSaved != null || onChanged != null,
           'Either onChanged or onSaved have to be present',
@@ -22,7 +22,8 @@ class AddDoctorFormField extends FormField<Doctor> {
           initialValue: initialValue,
           key: key,
           builder: (state) {
-            final _AddDoctorFormFieldState formState = state;
+            // ignore: avoid_as
+            final formState = state as _AddDoctorFormFieldState;
 
             return Builder(
               builder: (context) => Column(children: [
@@ -59,14 +60,14 @@ class AddDoctorFormField extends FormField<Doctor> {
         );
 
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<Doctor> onChanged;
+  final ValueChanged<Doctor>? onChanged;
 
   @override
   _AddDoctorFormFieldState createState() => _AddDoctorFormFieldState();
 }
 
 class _AddDoctorFormFieldState extends FormFieldState<Doctor> {
-  DoctorBuilder _builder;
+  late DoctorBuilder _builder;
 
   @override
   void initState() {
@@ -95,11 +96,12 @@ class _AddDoctorFormFieldState extends FormFieldState<Doctor> {
   void _changed() {
     setState(() {});
 
-    final AddDoctorFormField w = widget;
+    // ignore: avoid_as
+    final w = widget as AddDoctorFormField;
     try {
       final doctor = _builder.build();
       if (w.onChanged != null) {
-        w.onChanged(doctor);
+        w.onChanged!(doctor);
       }
 
       didChange(doctor);

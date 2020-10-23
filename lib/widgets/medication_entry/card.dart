@@ -14,9 +14,8 @@ extension _Formatting on Duration {
 }
 
 class MedicationEntryCard extends StatelessWidget {
-  const MedicationEntryCard({@required this.entry, Key key})
-      : assert(entry != null, 'You need to provide an entry'),
-        super(key: key);
+  const MedicationEntryCard({required this.entry, Key? key})
+      : super(key: key);
 
   final MedicationEntry entry;
 
