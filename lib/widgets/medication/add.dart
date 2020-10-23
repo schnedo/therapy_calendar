@@ -8,17 +8,18 @@ import 'package:therapy_calendar/widgets/medicament/add.dart';
 
 class AddMedicationFormField extends FormField<Medication> {
   AddMedicationFormField({
-    FormFieldSetter<Medication> onSaved,
+    FormFieldSetter<Medication>? onSaved,
     this.onChanged,
-    Key key,
-    Medication initialValue,
+    Medication? initialValue,
+    Key? key,
   })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
             initialValue: initialValue,
             onSaved: onSaved,
             builder: (state) {
-              final _AddMedicationFormFieldState formState = state;
+              // ignore: avoid_as
+              final formState = state as _AddMedicationFormFieldState;
 
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -37,11 +38,10 @@ class AddMedicationFormField extends FormField<Medication> {
             key: key);
 
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<Medication> onChanged;
+  final ValueChanged<Medication>? onChanged;
 
   @override
-  _AddMedicationFormFieldState createState() =>
-      _AddMedicationFormFieldState(initialValue);
+  _AddMedicationFormFieldState createState() => _AddMedicationFormFieldState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -52,10 +52,13 @@ class AddMedicationFormField extends FormField<Medication> {
 }
 
 class _AddMedicationFormFieldState extends FormFieldState<Medication> {
-  _AddMedicationFormFieldState(Medication initialValue)
-      : _builder = initialValue?.toBuilder() ?? MedicationBuilder();
+  late final MedicationBuilder _builder;
 
-  final MedicationBuilder _builder;
+  @override
+  void initState() {
+    super.initState();
+    _builder = widget.initialValue?.toBuilder() ?? MedicationBuilder();
+  }
 
   void doseChanged(Dose dose) {
     _builder.dose = dose.toBuilder();
@@ -68,12 +71,13 @@ class _AddMedicationFormFieldState extends FormFieldState<Medication> {
   }
 
   void _changed() {
-    final AddMedicationFormField f = widget;
+    // ignore: avoid_as
+    final f = widget as AddMedicationFormField;
     try {
       final value = _builder.build();
 
       if (f.onChanged != null) {
-        f.onChanged(value);
+        f.onChanged!(value);
       }
 
       didChange(value);

@@ -10,7 +10,7 @@ class AddBodyMassFormField extends StatelessWidget {
       this.onSaved,
       this.onChanged,
       this.editable = true,
-      Key key})
+      Key? key})
       : assert(
           onSaved != null || onChanged != null,
           'Either onChanged or onSaved have to be present',
@@ -22,34 +22,34 @@ class AddBodyMassFormField extends StatelessWidget {
         super(key: key);
 
   final bool editable;
-  final BodyMass initialValue;
+  final BodyMass? initialValue;
   // ignore: diagnostic_describe_all_properties
-  final FormFieldSetter<BodyMass> onSaved;
+  final FormFieldSetter<BodyMass>? onSaved;
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<BodyMass> onChanged;
+  final ValueChanged<BodyMass>? onChanged;
 
   @override
   Widget build(BuildContext context) => TextFormField(
-        initialValue: initialValue?.amount?.toString() ?? '',
+        initialValue: initialValue?.amount.toString() ?? '',
         decoration: InputDecoration(
           labelText: S.of(context).addUserBodyMassLabel,
           suffixText: BodyMass.unit,
         ),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        validator: (value) => value.isEmpty
+        validator: (value) => value!.isEmpty
             ? S.of(context).addUserBodyMassInvalidValidation
             : null,
         onSaved: onSaved != null
             ? (value) {
-                final amount = int.parse(value);
-                onSaved(BodyMass((b) => b..amount = amount));
+                final amount = int.parse(value!);
+                onSaved!(BodyMass((b) => b..amount = amount));
               }
             : null,
         onChanged: onChanged != null
             ? (value) {
                 final amount = int.parse(value);
-                onChanged(BodyMass((b) => b.amount = amount));
+                onChanged!(BodyMass((b) => b.amount = amount));
               }
             : null,
         enabled: editable,

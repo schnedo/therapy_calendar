@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 
 class MedicationCard extends StatelessWidget {
-  const MedicationCard({@required this.medication, Key key}) : super(key: key);
+  const MedicationCard({required this.medication, Key? key}) : super(key: key);
 
   final Medication medication;
 

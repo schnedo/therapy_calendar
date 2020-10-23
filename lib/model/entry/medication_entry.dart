@@ -38,15 +38,15 @@ abstract class MedicationEntryBuilder
   factory MedicationEntryBuilder() = _$MedicationEntryBuilder;
   MedicationEntryBuilder._();
 
-  DateTime _date;
+  late DateTime _date;
   DateTime get date => _date;
   set date(DateTime dateTime) => _date = dateTime.toUtc();
 
-  ListBuilder<Medication> medications;
+  late ListBuilder<Medication> medications;
 
-  Duration duration;
+  late Duration duration;
 
-  String comments;
+  late String comments;
 
-  BodyMass bodyMass;
+  late BodyMassBuilder bodyMass;
 }

@@ -39,8 +39,13 @@ dynamic serialize(List<MedicationEntry> medicationEntries) =>
 
 // We work with dynamic here, therefore no type annotation necessary
 // ignore: type_annotate_public_apis
-T deserialize<T>(value) =>
-    serializers.deserializeWith(serializers.serializerForType(T), value);
+T? deserialize<T>(value) {
+  final serializer = serializers.serializerForType(T);
+  if (serializer is Serializer<T>) {
+    return serializers.deserializeWith(serializer, value);
+  }
+  return null;
+}
 
 // We work with dynamic here, therefore no type annotation necessary
 // ignore: type_annotate_public_apis

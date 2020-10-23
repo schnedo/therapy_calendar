@@ -8,11 +8,11 @@ import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/widgets/medication_entry/add.dart';
 
 class AddMedicationEntry extends StatefulWidget {
-  const AddMedicationEntry({Key key, this.initialValue}) : super(key: key);
+  const AddMedicationEntry({this.initialValue, Key? key}) : super(key: key);
 
   static const routeName = '/medication_entry/add';
 
-  final MedicationEntry initialValue;
+  final MedicationEntry? initialValue;
 
   @override
   _AddMedicationEntryState createState() => _AddMedicationEntryState();
@@ -28,7 +28,7 @@ class AddMedicationEntry extends StatefulWidget {
 class _AddMedicationEntryState extends State<AddMedicationEntry> {
   final _formKey = GlobalKey<FormState>();
 
-  bool _editable;
+  late bool _editable;
 
   @override
   void initState() {
@@ -53,11 +53,14 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
                   AddMedicationEntryFormField(
                     initialValue: widget.initialValue,
                     onSaved: (entry) {
+                      if (entry == null) {
+                        return;
+                      }
                       Future(() {
                         final userBloc = context.bloc<UserBloc>();
 
                         if (userBloc.state != null) {
-                          final updatedUser = userBloc.state.rebuild(
+                          final updatedUser = userBloc.state!.rebuild(
                             (b) => b..bodyMass = entry.bodyMass.toBuilder(),
                           );
                           userBloc.update(updatedUser);
@@ -68,8 +71,8 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _formKey.currentState!.save();
                         Navigator.pop(context);
                       }
                     },

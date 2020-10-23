@@ -8,7 +8,7 @@ import 'package:therapy_calendar/views/treatment_center_profile.dart';
 import 'package:therapy_calendar/views/user_profile.dart';
 
 class Routes {
-  Routes({@required this.initialRoute, @required this.routes});
+  Routes({required this.initialRoute, required this.routes});
 
   final String initialRoute;
   final Map<String, WidgetBuilder> routes;
@@ -16,7 +16,7 @@ class Routes {
 
 Routes getRoutes() => Routes(initialRoute: '/debug', routes: {
       DayView.routeName: (_) => DayView(),
-      AddMedicationEntry.routeName: (_) => AddMedicationEntry(),
+      AddMedicationEntry.routeName: (_) => const AddMedicationEntry(),
       UserProfile.routeName: (_) => UserProfile(),
       DoctorProfile.routeName: (_) => DoctorProfile(),
       TreatmentCenterProfile.routeName: (_) => TreatmentCenterProfile(),

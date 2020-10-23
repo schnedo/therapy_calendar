@@ -13,7 +13,7 @@ class TakePicture extends StatelessWidget {
       future: cameras,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return TakePictureScreen(cameras: snapshot.data);
+          return TakePictureScreen(cameras: snapshot.data!);
         }
         return const Center(
           child: CircularProgressIndicator(),
@@ -24,7 +24,7 @@ class TakePicture extends StatelessWidget {
 }
 
 class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen({@required this.cameras, Key key}) : super(key: key);
+  const TakePictureScreen({required this.cameras, Key? key}) : super(key: key);
 
   final List<CameraDescription> cameras;
 
@@ -39,8 +39,8 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class _TakePictureScreenState extends State<TakePictureScreen> {
-  CameraController _controller;
-  Future<void> _initializeController;
+  late final CameraController _controller;
+  late final Future<void> _initializeController;
 
   @override
   void initState() {
@@ -83,7 +83,9 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
                 '${DateTime.now()}.png',
               );
               await _controller.takePicture(path);
+              // ignore: avoid_catches_without_on_clauses
             } catch (e) {
+              // ignore: avoid_print
               print(e);
             }
           },

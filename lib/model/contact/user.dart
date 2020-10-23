@@ -27,13 +27,13 @@ abstract class UserBuilder implements Builder<User, UserBuilder> {
   factory UserBuilder() = _$UserBuilder;
   UserBuilder._();
 
-  DateTime _birthdate;
+  late DateTime _birthdate;
   DateTime get birthdate => _birthdate;
   set birthdate(DateTime dateTime) => _birthdate = dateTime.toUtc();
 
-  BodyMassBuilder bodyMass;
-  String diagnosis;
-  String fullName;
-  String address;
-  String phoneNumber;
+  late BodyMassBuilder bodyMass;
+  late String diagnosis;
+  late String fullName;
+  late String address;
+  late String phoneNumber;
 }

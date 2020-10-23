@@ -38,8 +38,13 @@ class DayView extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.print),
-              onPressed: () => toPdf(
-                  S.of(context), context.bloc<MedicationEntryBloc>().state),
+              onPressed: () {
+                final entries = context.bloc<MedicationEntryBloc>().state;
+                if (entries != null) {
+                  toPdf(S.of(context), entries);
+                }
+                // TODO(ms): alert dialog on null?
+              },
             ),
           ],
         ),
@@ -55,7 +60,7 @@ class DayView extends StatelessWidget {
             children: [
               Expanded(
                   child:
-                      BlocBuilder<MedicationEntryBloc, List<MedicationEntry>>(
+                      BlocBuilder<MedicationEntryBloc, List<MedicationEntry>?>(
                 buildWhen: (_, __) => true,
                 builder: (context, all) {
                   if (all == null) {
@@ -64,7 +69,7 @@ class DayView extends StatelessWidget {
                       child: Center(
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColorLight),
+                              Theme.of(context)!.primaryColorLight),
                         ),
                       ),
                     );
@@ -136,14 +141,14 @@ class DayView extends StatelessWidget {
       case _Changes.delete:
         await context.bloc<MedicationEntryBloc>().remove(medicationEntry);
         break;
+      default:
+        break;
     }
   }
 }
 
 class _TextDivider extends StatelessWidget {
-  const _TextDivider({@required this.text, Key key})
-      : assert(text != null, 'Use "Divider()" instead.'),
-        super(key: key);
+  const _TextDivider({required this.text, Key? key}) : super(key: key);
 
   static const divider = Expanded(
     flex: 1,

@@ -18,7 +18,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
   bool _editable = false;
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<DoctorBloc, Doctor>(
+  Widget build(BuildContext context) => BlocBuilder<DoctorBloc, Doctor?>(
         builder: (context, doctor) {
           if (doctor == null && !_editable) {
             _editable = true;
@@ -47,15 +47,19 @@ class _DoctorProfileState extends State<DoctorProfile> {
                   child: Column(
                     children: [
                       AddDoctorFormField(
-                        onSaved: context.bloc<DoctorBloc>().update,
+                        onSaved: (newValue) {
+                          if (newValue != null) {
+                            context.bloc<DoctorBloc>().update(newValue);
+                          }
+                        },
                         editable: _editable,
                         initialValue: doctor,
                       ),
                       if (_editable)
                         RaisedButton(
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState!.save();
                               setState(() {
                                 _editable = false;
                               });

@@ -5,10 +5,10 @@ import 'package:therapy_calendar/model/contact/treatment_center.dart';
 class AddTreatmentCenterFormField extends FormField<TreatmentCenter> {
   AddTreatmentCenterFormField({
     this.onChanged,
-    FormFieldSetter<TreatmentCenter> onSaved,
-    TreatmentCenter initialValue,
+    FormFieldSetter<TreatmentCenter>? onSaved,
+    TreatmentCenter? initialValue,
     bool editable = true,
-    Key key,
+    Key? key,
   })  : assert(
           onSaved != null || onChanged != null,
           'Either onChanged or onSaved have to be present',
@@ -22,7 +22,8 @@ class AddTreatmentCenterFormField extends FormField<TreatmentCenter> {
           initialValue: initialValue,
           key: key,
           builder: (state) {
-            final _AddTreatmentCenterFormFieldState formState = state;
+            // ignore: avoid_as
+            final formState = state as _AddTreatmentCenterFormFieldState;
 
             return Builder(
               builder: (context) => Column(children: [
@@ -59,7 +60,7 @@ class AddTreatmentCenterFormField extends FormField<TreatmentCenter> {
         );
 
   // ignore: diagnostic_describe_all_properties
-  final ValueChanged<TreatmentCenter> onChanged;
+  final ValueChanged<TreatmentCenter>? onChanged;
 
   @override
   _AddTreatmentCenterFormFieldState createState() =>
@@ -68,7 +69,7 @@ class AddTreatmentCenterFormField extends FormField<TreatmentCenter> {
 
 class _AddTreatmentCenterFormFieldState
     extends FormFieldState<TreatmentCenter> {
-  TreatmentCenterBuilder _builder;
+  late final TreatmentCenterBuilder _builder;
 
   @override
   void initState() {
@@ -97,11 +98,12 @@ class _AddTreatmentCenterFormFieldState
   void _changed() {
     setState(() {});
 
-    final AddTreatmentCenterFormField w = widget;
+    // ignore: avoid_as
+    final w = widget as AddTreatmentCenterFormField;
     try {
       final doctor = _builder.build();
       if (w.onChanged != null) {
-        w.onChanged(doctor);
+        w.onChanged!(doctor);
       }
 
       didChange(doctor);

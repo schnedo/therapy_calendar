@@ -18,57 +18,61 @@ class _UserProfileState extends State<UserProfile> {
   bool _editable = false;
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<UserBloc, User>(
-    builder: (context, user) {
-      if (user == null && !_editable) {
-        _editable = true;
-      }
+  Widget build(BuildContext context) => BlocBuilder<UserBloc, User?>(
+        builder: (context, user) {
+          if (user == null && !_editable) {
+            _editable = true;
+          }
 
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).patientData),
-          actions: [
-            if (!_editable)
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _editable = true;
-                  });
-                },
-                icon: const Icon(Icons.edit),
-              ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                children: [
-                  AddUserFormField(
-                    onSaved: context.bloc<UserBloc>().update,
-                    editable: _editable,
-                    initialValue: user,
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(S.of(context).patientData),
+              actions: [
+                if (!_editable)
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _editable = true;
+                      });
+                    },
+                    icon: const Icon(Icons.edit),
                   ),
-                  if (_editable)
-                    RaisedButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                          setState(() {
-                            _editable = false;
-                          });
-                        }
-                      },
-                      child: Text(S.of(context).addUserViewSubmitButton),
-                    )
-                ],
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      AddUserFormField(
+                        onSaved: (newValue) {
+                          if (newValue != null) {
+                            context.bloc<UserBloc>().update(newValue);
+                          }
+                        },
+                        editable: _editable,
+                        initialValue: user,
+                      ),
+                      if (_editable)
+                        RaisedButton(
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState!.save();
+                              setState(() {
+                                _editable = false;
+                              });
+                            }
+                          },
+                          child: Text(S.of(context).addUserViewSubmitButton),
+                        )
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       );
-    },
-  );
 }
