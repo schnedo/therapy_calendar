@@ -33,15 +33,23 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
   @override
   void initState() {
     super.initState();
-    _editable = widget.initialValue != null;
+    _editable = widget.initialValue == null;
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(_editable
-              ? S.of(context).medicationEntryViewTitle
-              : S.of(context).addMedicationEntryViewTitle),
+          title: Text(widget.initialValue == null
+              ? S.of(context).addMedicationEntryViewTitle
+              : _editable
+                  ? S.of(context).editMedicationEntryViewTitle
+                  : S.of(context).medicationEntryViewTitle),
+          actions: [
+            if (!_editable)
+              IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () => setState(() => _editable = true))
+          ],
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -65,17 +73,19 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
                       });
                       context.bloc<MedicationEntryBloc>().add(entry);
                     },
+                    editable: _editable,
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child:
-                        Text(S.of(context).addMedicationEntryViewSubmitButton),
-                  )
+                  if (_editable)
+                    RaisedButton(
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text(
+                          S.of(context).addMedicationEntryViewSubmitButton),
+                    )
                 ],
               ),
             ),

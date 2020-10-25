@@ -19,6 +19,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
     MedicationEntry initialValue,
     this.onChanged,
     FormFieldSetter<MedicationEntry> onSaved,
+    bool editable = true,
     Key key,
   })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
@@ -37,6 +38,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           labelText: S.of(context).addMedicationEntryDateLabel),
                       controller: formState._dateController,
                       readOnly: true,
+                      enabled: editable,
                       onTap: () {
                         Picker(
                           cancelText:
@@ -62,6 +64,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                               S.of(context).addMedicationEntryDurationLabel),
                       controller: formState._durationController,
                       readOnly: true,
+                      enabled: editable,
                       onTap: () {
                         Picker(
                           cancelText:
@@ -108,15 +111,19 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     AddBodyMassFormField(
                       onChanged: formState.bodyMassChanged,
                       initialValue: formState._builder.bodyMass,
+                      editable: editable,
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
-                    ...formState.medicationWidgets(),
-                    IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {
-                          formState.showMedicationDialog(context);
-                        }),
+                    ...formState.medicationWidgets(editable: editable),
+                    if (editable)
+                      IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            formState.showMedicationDialog(context);
+                          })
+                    else if (!formState.hasMedications())
+                      const Padding(padding: EdgeInsets.only(top: 48)),
                     const Divider(),
                     TextFormField(
                       decoration: InputDecoration(
@@ -126,6 +133,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
                       initialValue: formState._builder.comments,
+                      enabled: editable,
                     ),
                   ],
                 ),
@@ -288,7 +296,9 @@ class _AddMedicationEntryFormFieldState
     );
   }
 
-  List<Widget> medicationWidgets() => _builder.medications
+  bool hasMedications() => _builder.medications.length != 0;
+
+  List<Widget> medicationWidgets({bool editable}) => _builder.medications
       .build()
       .toList()
       .map((medication) => Row(
@@ -302,16 +312,17 @@ class _AddMedicationEntryFormFieldState
                   child: MedicationCard(medication: medication),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: const Icon(Icons.delete_forever),
-                  onPressed: () {
-                    _builder.medications.remove(medication);
-                    _changed();
-                  },
+              if (editable)
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: const Icon(Icons.delete_forever),
+                    onPressed: () {
+                      _builder.medications.remove(medication);
+                      _changed();
+                    },
+                  ),
                 ),
-              ),
             ],
           ))
       .toList();
