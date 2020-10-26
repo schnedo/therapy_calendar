@@ -94,18 +94,23 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
                 children: [
                   AddMedicationEntryFormField(
                     initialValue: widget.initialValue,
-                    onSaved: (entry) {
-                      Future(() {
-                        final userBloc = context.bloc<UserBloc>();
+                    onSaved: (entry) async {
+                      final medicationEntryBloc =
+                          context.bloc<MedicationEntryBloc>();
+                      final userBloc = context.bloc<UserBloc>();
 
+                      if (widget.initialValue != null) {
+                        await medicationEntryBloc.remove(widget.initialValue);
+                      } else {
                         if (userBloc.state != null) {
                           final updatedUser = userBloc.state.rebuild(
                             (b) => b..bodyMass = entry.bodyMass.toBuilder(),
                           );
-                          userBloc.update(updatedUser);
+                          await userBloc.update(updatedUser);
                         }
-                      });
-                      context.bloc<MedicationEntryBloc>().add(entry);
+                      }
+
+                      await medicationEntryBloc.add(entry);
                     },
                     editable: _editable,
                   ),
