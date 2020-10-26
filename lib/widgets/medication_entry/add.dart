@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/photo.dart';
+import 'package:therapy_calendar/views/take_picture.dart';
 import 'package:therapy_calendar/widgets/body_mass/add.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
+import 'package:therapy_calendar/widgets/photo/card.dart';
 
 String _formatValue(num number) => number.toString().padLeft(2, '0');
 
@@ -135,6 +139,26 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       initialValue: formState._builder.comments,
                       enabled: editable,
                     ),
+                    const Divider(),
+                    Text(S.of(context).addMedicationEntryPhotosLabel),
+                    ...formState.photoWidgets(editable: editable),
+                    if (editable)
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => TakePicture(
+                              photoTakenCallback: (path, description) {
+                                formState.addPhoto((PhotoBuilder()
+                                      ..path = path
+                                      ..description = description)
+                                    .build());
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               );
@@ -182,7 +206,8 @@ class _AddMedicationEntryFormFieldState
           ..comments = ''
           ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ??
               ((BodyMassBuilder()..amount = 0).build())
-          ..medications = ListBuilder());
+          ..medications = ListBuilder()
+          ..photos = ListBuilder());
     _dateController.text = _date;
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';
@@ -212,6 +237,11 @@ class _AddMedicationEntryFormFieldState
 
   void addMedication(Medication medication) {
     _builder.medications.add(medication);
+    _changed();
+  }
+
+  void addPhoto(Photo photo) {
+    _builder.photos.add(photo);
     _changed();
   }
 
@@ -318,6 +348,32 @@ class _AddMedicationEntryFormFieldState
                     icon: const Icon(Icons.delete_forever),
                     onPressed: () {
                       _builder.medications.remove(medication);
+                      _changed();
+                    },
+                  ),
+                ),
+            ],
+          ))
+      .toList();
+
+  List<Widget> photoWidgets({bool editable}) => _builder.photos
+      .build()
+      .toList()
+      .map((photo) => Row(
+            children: [
+              Expanded(
+                flex: 10,
+                child: GestureDetector(
+                    onTap: () => OpenFile.open(photo.path),
+                    child: PhotoCard(photo: photo)),
+              ),
+              if (editable)
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: const Icon(Icons.delete_forever),
+                    onPressed: () {
+                      _builder.medications.remove(photo);
                       _changed();
                     },
                   ),

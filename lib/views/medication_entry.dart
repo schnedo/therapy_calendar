@@ -53,27 +53,27 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
                         context: context,
                         builder: (ctx) => AlertDialog(
                               content: Text(S
-                                  .of(context)
+                                  .of(ctx)
                                   .medicationEntryDeleteConfirmationMessage),
                               actions: [
                                 FlatButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    Navigator.pop(ctx);
                                   },
                                   child: Text(S
-                                      .of(context)
+                                      .of(ctx)
                                       .medicationEntryDeleteCancelLabel),
                                 ),
                                 FlatButton(
                                   onPressed: () async {
-                                    await context
+                                    await ctx
                                         .bloc<MedicationEntryBloc>()
                                         .remove(widget.initialValue);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
+                                    Navigator.pop(ctx);
+                                    Navigator.pop(ctx);
                                   },
                                   child: Text(S
-                                      .of(context)
+                                      .of(ctx)
                                       .medicationEntryDeleteConfirmationLabel),
                                 ),
                               ],

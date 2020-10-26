@@ -16,6 +16,7 @@
   "addMedicationEntryCommentsLabel": "Comments",
   "addMedicationEntryDurationLabel": "Duration",
   "addMedicationEntryDurationTimePickerHelpText": "Duration",
+  "addMedicationEntryPhotosLabel": "Pictures",
   "addMedicationEntryPickerConfirmText": "Submit",
   "addMedicationEntryPickerCancelText": "Cancel",
   "addMedicationEntryViewTitle": "New Entry",
@@ -44,5 +45,8 @@
   "addUserPickerConfirmText": "Submit",
   "addUserPickerCancelText": "Cancel",
   "addUserDateLabel": "Datum",
-  "pdfBodyMass": "Body Mass"
+  "pdfBodyMass": "Body Mass",
+  "takePictureDialogText": "Please enter a description",
+  "takePictureOkLabel": "OK",
+  "takePictureCancelLabel": "Cancel"
 }

@@ -15,6 +15,7 @@
   "addMedicamentNameInvalidValidation": "Bitte Medikamentenbezeichnung eingeben",
   "addMedicationEntryCommentsLabel": "Bemerkungen",
   "addMedicationEntryDurationLabel": "Dauer",
+  "addMedicationEntryPhotosLabel": "Bilder",
   "addMedicationEntryDurationTimePickerHelpText": "Dauer",
   "addMedicationEntryPickerConfirmText": "Übernehmen",
   "addMedicationEntryPickerCancelText": "Abbrechen",
@@ -44,5 +45,8 @@
   "addUserPickerConfirmText": "Übernehmen",
   "addUserPickerCancelText": "Abbrechen",
   "addUserDateLabel": "Datum",
-  "pdfBodyMass": "Gewicht"
+  "pdfBodyMass": "Gewicht",
+  "takePictureDialogText": "Bitte Beschreibung eingeben",
+  "takePictureOkLabel": "Bestätigen",
+  "takePictureCancelLabel": "Abbrechen"
 }
