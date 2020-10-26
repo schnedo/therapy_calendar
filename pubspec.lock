@@ -126,7 +126,7 @@ packages:
       name: camera
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.8+9"
+    version: "0.5.8+11"
   characters:
     dependency: transitive
     description:
@@ -414,7 +414,7 @@ packages:
       name: open_file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.3"
   package_config:
     dependency: transitive
     description:
