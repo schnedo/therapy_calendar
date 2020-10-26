@@ -83,7 +83,9 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
                 '${DateTime.now()}.png',
               );
               await _controller.takePicture(path);
+              // ignore: avoid_catches_without_on_clauses
             } catch (e) {
+              // ignore: avoid_print
               print(e);
             }
           },

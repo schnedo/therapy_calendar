@@ -183,7 +183,6 @@ class _AddMedicationEntryFormFieldState
           ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ??
               ((BodyMassBuilder()..amount = 0).build())
           ..medications = ListBuilder());
-    print(2);
     _dateController.text = _date;
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';

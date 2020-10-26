@@ -16,7 +16,7 @@ class Routes {
 
 Routes getRoutes() => Routes(initialRoute: '/debug', routes: {
       DayView.routeName: (_) => DayView(),
-      AddMedicationEntry.routeName: (_) => AddMedicationEntry(),
+      AddMedicationEntry.routeName: (_) => const AddMedicationEntry(),
       UserProfile.routeName: (_) => UserProfile(),
       DoctorProfile.routeName: (_) => DoctorProfile(),
       TreatmentCenterProfile.routeName: (_) => TreatmentCenterProfile(),
