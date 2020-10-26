@@ -47,6 +47,40 @@ class _AddMedicationEntryState extends State<AddMedicationEntry> {
           actions: [
             if (!_editable)
               IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                              content: Text(S
+                                  .of(context)
+                                  .medicationEntryDeleteConfirmationMessage),
+                              actions: [
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(S
+                                      .of(context)
+                                      .medicationEntryDeleteCancelLabel),
+                                ),
+                                FlatButton(
+                                  onPressed: () async {
+                                    await context
+                                        .bloc<MedicationEntryBloc>()
+                                        .remove(widget.initialValue);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(S
+                                      .of(context)
+                                      .medicationEntryDeleteConfirmationLabel),
+                                ),
+                              ],
+                            ));
+                  }),
+            if (!_editable)
+              IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () => setState(() => _editable = true))
           ],
