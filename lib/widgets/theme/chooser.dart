@@ -49,7 +49,7 @@ class ThemeColorChooser extends StatelessWidget {
                 child: BlocBuilder<ColorBloc, Color>(
                   builder: (context, state) => DropdownButtonFormField<Color>(
                     decoration: InputDecoration(
-                      labelText: "Color",
+                      labelText: S.of(context).colorChooserLabel,
                     ),
                     isExpanded: true,
                     value: state,
