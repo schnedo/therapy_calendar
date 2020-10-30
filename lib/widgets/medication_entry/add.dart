@@ -141,24 +141,10 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryPhotosLabel),
-                    ...formState.photoWidgets(editable: editable),
-                    if (editable)
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => TakePicture(
-                              photoTakenCallback: (path, description) {
-                                formState.addPhoto((PhotoBuilder()
-                                      ..path = path
-                                      ..description = description)
-                                    .build());
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: formState.photoWidgets(editable: editable),
+                    ),
                   ],
                 ),
               );
@@ -356,31 +342,48 @@ class _AddMedicationEntryFormFieldState
           ))
       .toList();
 
-  List<Widget> photoWidgets({bool editable}) => _builder.photos
-      .build()
-      .toList()
-      .map((photo) => Row(
-            children: [
-              Expanded(
-                flex: 10,
-                child: GestureDetector(
-                    onTap: () => OpenFile.open(photo.path),
-                    child: PhotoCard(photo: photo)),
-              ),
-              if (editable)
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: const Icon(Icons.delete_forever),
-                    onPressed: () {
-                      _builder.medications.remove(photo);
-                      _changed();
+  Widget photoWidgets({bool editable}) => Row(
+        children: [
+          ..._builder.photos
+              .build()
+              .toList()
+              .map(
+                (photo) => Column(
+                  children: [
+                    PhotoCard(
+                      photo: photo,
+                      onTap: () => OpenFile.open(photo.path),
+                      deleteTap: editable
+                          ? () {
+                              _builder.medications.remove(photo);
+                              _changed();
+                            }
+                          : null,
+                    ),
+                  ],
+                ),
+              )
+              .toList(),
+          if (editable)
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TakePicture(
+                    photoTakenCallback: (path, description) {
+                      addPhoto(
+                        Photo((b) => b
+                          ..path = path
+                          ..description = description),
+                      );
                     },
                   ),
                 ),
-            ],
-          ))
-      .toList();
+              ),
+            ),
+        ],
+      );
 
   @override
   void dispose() {
