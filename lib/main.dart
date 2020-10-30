@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:therapy_calendar/bloc/color_bloc.dart';
 import 'package:therapy_calendar/bloc/doctor_bloc.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/bloc/theme_bloc.dart';
@@ -44,7 +45,11 @@ class TherapyCalendar extends StatelessWidget {
           BlocProvider(
             create: (_) => ThemeBloc(),
             lazy: false,
-          )
+          ),
+          BlocProvider(
+            create: (_) => ColorBloc(),
+            lazy: false,
+          ),
         ],
         child: _MainApp(),
       );
@@ -61,26 +66,28 @@ class __MainAppState extends State<_MainApp> {
     final routes = getRoutes();
 
     return BlocBuilder<ThemeBloc, ThemeMode>(
-      builder: (context, state) => MaterialApp(
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        initialRoute: routes.initialRoute,
-        routes: routes.routes,
-        title: 'Therapy Calendar',
-        themeMode: state,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        darkTheme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          brightness: Brightness.dark,
+      builder: (context, themeMode) => BlocBuilder<ColorBloc, Color>(
+        builder: (ctx, color) => MaterialApp(
+          localizationsDelegates: [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          initialRoute: routes.initialRoute,
+          routes: routes.routes,
+          title: 'Therapy Calendar',
+          themeMode: themeMode,
+          theme: ThemeData(
+            primarySwatch: color,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          darkTheme: ThemeData(
+            primarySwatch: color,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            brightness: Brightness.dark,
+          ),
         ),
       ),
     );

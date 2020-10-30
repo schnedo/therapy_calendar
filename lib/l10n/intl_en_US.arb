@@ -52,5 +52,6 @@
   "takePictureSubmitLabel": "Submit",
   "takePictureCancelLabel": "Cancel",
   "drawerLicenses": "Licenses",
-  "themeChooserLabel": "Theme"
+  "themeChooserLabel": "Theme",
+  "colorChooserLabel": "Color"
 }

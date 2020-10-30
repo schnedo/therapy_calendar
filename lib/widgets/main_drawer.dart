@@ -60,7 +60,7 @@ class MainDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   const Divider(),
-                  ThemeChooser(),
+                  ThemeColorChooser(),
                   ListTile(
                     title: Text(S.of(context).drawerLicenses),
                     onTap: () async {
