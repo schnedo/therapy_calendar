@@ -50,5 +50,6 @@
   "takePictureDescriptionTitle": "Change Picture Details",
   "takePictureDescriptionLabel": "Please enter a description",
   "takePictureSubmitLabel": "Submit",
-  "takePictureCancelLabel": "Cancel"
+  "takePictureCancelLabel": "Cancel",
+  "drawerLicenses": "Licenses"
 }

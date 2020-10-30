@@ -22,6 +22,7 @@ dependencies:
   intl_translation: ^0.17.10
   intl_utils: ^1.6.3
   open_file: ^3.0.1
+  package_info: '>=0.4.3 <2.0.0'
   path: ^1.7.0
   path_provider: ^1.6.21
   pdf: ^1.11.2
