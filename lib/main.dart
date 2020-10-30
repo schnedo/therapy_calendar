@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:therapy_calendar/bloc/doctor_bloc.dart';
 import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
+import 'package:therapy_calendar/bloc/theme_bloc.dart';
 import 'package:therapy_calendar/bloc/treatment_center_bloc.dart';
 import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/config/routes.dart';
@@ -21,30 +22,46 @@ class TherapyCalendar extends StatelessWidget {
   static const _treatmentCenterFileName = 'treatmentCenter.json';
 
   @override
+  Widget build(BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => MedicationEntryBloc(MedicationEntryRepository()),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => UserBloc(ContactRepository(_userFileName)),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => DoctorBloc(ContactRepository(_doctorFileName)),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => TreatmentCenterBloc(
+                ContactRepository(_treatmentCenterFileName)),
+            lazy: false,
+          ),
+          BlocProvider(
+            create: (_) => ThemeBloc(),
+            lazy: false,
+          )
+        ],
+        child: _MainApp(),
+      );
+}
+
+class _MainApp extends StatefulWidget {
+  @override
+  __MainAppState createState() => __MainAppState();
+}
+
+class __MainAppState extends State<_MainApp> {
+  @override
   Widget build(BuildContext context) {
     final routes = getRoutes();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => MedicationEntryBloc(MedicationEntryRepository()),
-          lazy: false,
-        ),
-        BlocProvider(
-          create: (_) => UserBloc(ContactRepository(_userFileName)),
-          lazy: false,
-        ),
-        BlocProvider(
-          create: (_) => DoctorBloc(ContactRepository(_doctorFileName)),
-          lazy: false,
-        ),
-        BlocProvider(
-          create: (_) =>
-              TreatmentCenterBloc(ContactRepository(_treatmentCenterFileName)),
-          lazy: false,
-        ),
-      ],
-      child: MaterialApp(
+    return BlocBuilder<ThemeBloc, ThemeMode>(
+      builder: (context, state) => MaterialApp(
         localizationsDelegates: [
           S.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -54,10 +71,16 @@ class TherapyCalendar extends StatelessWidget {
         supportedLocales: S.delegate.supportedLocales,
         initialRoute: routes.initialRoute,
         routes: routes.routes,
-        title: 'Flutter Demo',
+        title: 'Therapy Calendar',
+        themeMode: state,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        darkTheme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          brightness: Brightness.dark,
         ),
       ),
     );

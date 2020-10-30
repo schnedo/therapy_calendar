@@ -4,6 +4,7 @@ import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/views/doctor_profile.dart';
 import 'package:therapy_calendar/views/treatment_center_profile.dart';
 import 'package:therapy_calendar/views/user_profile.dart';
+import 'package:therapy_calendar/widgets/theme/chooser.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -59,6 +60,7 @@ class MainDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   const Divider(),
+                  ThemeChooser(),
                   ListTile(
                     title: Text(S.of(context).drawerLicenses),
                     onTap: () async {

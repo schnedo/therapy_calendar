@@ -51,5 +51,6 @@
   "takePictureDescriptionLabel": "Bitte Beschreibung eingeben",
   "takePictureSubmitLabel": "Übernehmen",
   "takePictureCancelLabel": "Abbrechen",
-  "drawerLicenses": "Lizenzen"
+  "drawerLicenses": "Lizenzen",
+  "themeChooserLabel": "Theme"
 }
