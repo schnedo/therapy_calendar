@@ -1,14 +1,50 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:therapy_calendar/generated/l10n.dart';
+import 'package:therapy_calendar/model/entry/photo.dart';
+import 'package:therapy_calendar/widgets/photo/details.dart';
 
-class TakePicture extends StatelessWidget {
-  const TakePicture({Key key, this.photoTakenCallback}) : super(key: key);
+typedef PhotoTakenCallback = void Function(Photo photo);
 
-  final Function(String path, String description) photoTakenCallback;
+class AddPhoto extends StatelessWidget {
+  const AddPhoto({
+    @required this.onPhotoTaken,
+    Key key,
+  }) : super(key: key);
+
+  final PhotoTakenCallback onPhotoTaken;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+        icon: const Icon(Icons.add),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => _TakePicture(
+              onPhotoTaken: onPhotoTaken,
+            ),
+          ),
+        ),
+      );
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(ObjectFlagProperty<PhotoTakenCallback>.has(
+        'onPhotoTaken', onPhotoTaken));
+  }
+}
+
+class _TakePicture extends StatelessWidget {
+  const _TakePicture({
+    @required this.onPhotoTaken,
+    Key key,
+  }) : super(key: key);
+
+  final PhotoTakenCallback onPhotoTaken;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +54,9 @@ class TakePicture extends StatelessWidget {
       future: cameras,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return TakePictureScreen(
+          return _TakePictureScreen(
             cameras: snapshot.data,
-            photoTakenCallback: photoTakenCallback,
+            onPhotoTaken: onPhotoTaken,
           );
         }
         return const Center(
@@ -33,18 +69,17 @@ class TakePicture extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Function>(
-        'photoTakenCallback', photoTakenCallback));
+    properties.add(
+        DiagnosticsProperty<PhotoTakenCallback>('onPhotoTaken', onPhotoTaken));
   }
 }
 
-class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen(
-      {@required this.cameras, Key key, this.photoTakenCallback})
+class _TakePictureScreen extends StatefulWidget {
+  const _TakePictureScreen({@required this.cameras, Key key, this.onPhotoTaken})
       : super(key: key);
 
   final List<CameraDescription> cameras;
-  final Function(String path, String description) photoTakenCallback;
+  final PhotoTakenCallback onPhotoTaken;
 
   @override
   _TakePictureScreenState createState() => _TakePictureScreenState();
@@ -54,12 +89,12 @@ class TakePictureScreen extends StatefulWidget {
     super.debugFillProperties(properties);
     properties
       ..add(IterableProperty<CameraDescription>('cameras', cameras))
-      ..add(DiagnosticsProperty<Function(String path, String description)>(
-          'photoTakenCallback', photoTakenCallback));
+      ..add(DiagnosticsProperty<PhotoTakenCallback>(
+          'onPhotoTaken', onPhotoTaken));
   }
 }
 
-class _TakePictureScreenState extends State<TakePictureScreen> {
+class _TakePictureScreenState extends State<_TakePictureScreen> {
   CameraController _controller;
   Future<void> _initializeController;
 
@@ -104,32 +139,24 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
                 '${DateTime.now()}.png',
               );
               await _controller.takePicture(path);
-              await showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  content: Text(S.of(ctx).takePictureDialogText),
-                  actions: [
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(S.of(ctx).takePictureCancelLabel),
+
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => PhotoDetails(
+                    initialValue: Photo(
+                      (b) => b
+                        ..path = path
+                        ..description = '',
                     ),
-                    FlatButton(
-                      onPressed: () {
-                        widget.photoTakenCallback(path, 'foo');
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                      child: Text(S.of(ctx).takePictureOkLabel),
-                    ),
-                  ],
+                    onPhotoTaken: widget.onPhotoTaken,
+                    initiallyEditable: true,
+                  ),
                 ),
               );
               // ignore: avoid_catches_without_on_clauses
             } catch (e) {
-              // ignore: avoid_print
-              print(e);
+              debugPrint(e);
             }
           },
           child: const Icon(Icons.camera_alt),

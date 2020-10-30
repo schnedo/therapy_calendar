@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 import 'package:therapy_calendar/bloc/user_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/model/entry/photo.dart';
-import 'package:therapy_calendar/views/take_picture.dart';
 import 'package:therapy_calendar/widgets/body_mass/add.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
+import 'package:therapy_calendar/widgets/photo/add.dart';
 import 'package:therapy_calendar/widgets/photo/card.dart';
+import 'package:therapy_calendar/widgets/photo/details.dart';
 
 String _formatValue(num number) => number.toString().padLeft(2, '0');
 
@@ -143,7 +143,10 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     Text(S.of(context).addMedicationEntryPhotosLabel),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: formState.photoWidgets(editable: editable),
+                      child: formState.photoWidgets(
+                        context,
+                        editable: editable,
+                      ),
                     ),
                   ],
                 ),
@@ -342,7 +345,7 @@ class _AddMedicationEntryFormFieldState
           ))
       .toList();
 
-  Widget photoWidgets({bool editable}) => Row(
+  Widget photoWidgets(BuildContext context, {bool editable}) => Row(
         children: [
           ..._builder.photos
               .build()
@@ -352,7 +355,16 @@ class _AddMedicationEntryFormFieldState
                   children: [
                     PhotoCard(
                       photo: photo,
-                      onTap: () => OpenFile.open(photo.path),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PhotoDetails(
+                              initialValue: photo,
+                              initiallyEditable: false,
+                              onPhotoTaken: (photo) =>
+                                  debugPrint(photo.toString()),
+                            ),
+                          )),
                       deleteTap: editable
                           ? () {
                               _builder.medications.remove(photo);
@@ -364,24 +376,7 @@ class _AddMedicationEntryFormFieldState
                 ),
               )
               .toList(),
-          if (editable)
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TakePicture(
-                    photoTakenCallback: (path, description) {
-                      addPhoto(
-                        Photo((b) => b
-                          ..path = path
-                          ..description = description),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
+          if (editable) AddPhoto(onPhotoTaken: addPhoto),
         ],
       );
 

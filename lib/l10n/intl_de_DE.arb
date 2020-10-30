@@ -46,7 +46,8 @@
   "addUserPickerCancelText": "Abbrechen",
   "addUserDateLabel": "Datum",
   "pdfBodyMass": "Gewicht",
-  "takePictureDialogText": "Bitte Beschreibung eingeben",
-  "takePictureOkLabel": "Bestätigen",
+  "takePictureDescriptionTitle": "Bild hinzufügen",
+  "takePictureDescriptionLabel": "Bitte Beschreibung eingeben",
+  "takePictureSubmitLabel": "Übernehmen",
   "takePictureCancelLabel": "Abbrechen"
 }
