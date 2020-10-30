@@ -38,7 +38,17 @@ class MedicationEntryCard extends StatelessWidget {
                 ),
                 subtitle: Padding(
                   padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-                  child: Text(entry.comments),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(entry.comments),
+                      if (entry.photos.isNotEmpty)
+                        Icon(
+                          Icons.image,
+                          color: Theme.of(context).unselectedWidgetColor,
+                        ),
+                    ],
+                  ),
                 ),
                 trailing: Column(
                   children: [

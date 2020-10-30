@@ -8,19 +8,28 @@ import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/photo.dart';
 import 'package:therapy_calendar/widgets/body_mass/add.dart';
 import 'package:therapy_calendar/widgets/medication/add.dart';
 import 'package:therapy_calendar/widgets/medication/card.dart';
+import 'package:therapy_calendar/widgets/photo/add.dart';
+import 'package:therapy_calendar/widgets/photo/card.dart';
+import 'package:therapy_calendar/widgets/photo/details.dart';
 
 String _formatValue(num number) => number.toString().padLeft(2, '0');
 
 class AddMedicationEntryFormField extends FormField<MedicationEntry> {
-  AddMedicationEntryFormField(
-      {this.onChanged, FormFieldSetter<MedicationEntry> onSaved, Key key})
-      : assert(onSaved != null || onChanged != null,
+  AddMedicationEntryFormField({
+    MedicationEntry initialValue,
+    this.onChanged,
+    FormFieldSetter<MedicationEntry> onSaved,
+    bool editable = true,
+    Key key,
+  })  : assert(onSaved != null || onChanged != null,
             'Either onChanged or onSaved have to be present'),
         super(
             onSaved: onSaved,
+            initialValue: initialValue,
             builder: (state) {
               final _AddMedicationEntryFormFieldState formState = state;
 
@@ -33,6 +42,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                           labelText: S.of(context).addMedicationEntryDateLabel),
                       controller: formState._dateController,
                       readOnly: true,
+                      enabled: editable,
                       onTap: () {
                         Picker(
                           cancelText:
@@ -58,6 +68,7 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                               S.of(context).addMedicationEntryDurationLabel),
                       controller: formState._durationController,
                       readOnly: true,
+                      enabled: editable,
                       onTap: () {
                         Picker(
                           cancelText:
@@ -103,16 +114,20 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                     ),
                     AddBodyMassFormField(
                       onChanged: formState.bodyMassChanged,
-                      initialValue: context.bloc<UserBloc>().state?.bodyMass,
+                      initialValue: formState._builder.bodyMass,
+                      editable: editable,
                     ),
                     const Divider(),
                     Text(S.of(context).addMedicationEntryMedicationsLabel),
-                    ...formState.medicationWidgets(),
-                    IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {
-                          formState.showMedicationDialog(context);
-                        }),
+                    ...formState.medicationWidgets(editable: editable),
+                    if (editable)
+                      IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            formState.showMedicationDialog(context);
+                          })
+                    else if (!formState.hasMedications())
+                      const Padding(padding: EdgeInsets.only(top: 48)),
                     const Divider(),
                     TextFormField(
                       decoration: InputDecoration(
@@ -121,6 +136,17 @@ class AddMedicationEntryFormField extends FormField<MedicationEntry> {
                       onChanged: formState.commentChanged,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
+                      initialValue: formState._builder.comments,
+                      enabled: editable,
+                    ),
+                    const Divider(),
+                    Text(S.of(context).addMedicationEntryPhotosLabel),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: formState.photoWidgets(
+                        context,
+                        editable: editable,
+                      ),
                     ),
                   ],
                 ),
@@ -153,7 +179,7 @@ extension _ReplaceMedication on ListBuilder<Medication> {
 
 class _AddMedicationEntryFormFieldState
     extends FormFieldState<MedicationEntry> {
-  final MedicationEntryBuilder _builder = MedicationEntryBuilder();
+  MedicationEntryBuilder _builder;
 
   String get _date => DateFormat.yMd().format(_builder.date);
 
@@ -162,12 +188,15 @@ class _AddMedicationEntryFormFieldState
 
   @override
   void initState() {
-    _builder
-      ..date = DateTime.now()
-      ..duration = const Duration(hours: 1, minutes: 0)
-      ..comments = ''
-      ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ?? BodyMassBuilder()
-      ..medications = ListBuilder();
+    _builder = widget.initialValue?.toBuilder() ??
+        (MedicationEntryBuilder()
+          ..date = DateTime.now()
+          ..duration = const Duration(hours: 1, minutes: 0)
+          ..comments = ''
+          ..bodyMass = context.bloc<UserBloc>().state?.bodyMass ??
+              ((BodyMassBuilder()..amount = 0).build())
+          ..medications = ListBuilder()
+          ..photos = ListBuilder());
     _dateController.text = _date;
     _durationController.text = '${_formatValue(_builder.duration.hours)}'
         ':${_formatValue(_builder.duration.minutes)}';
@@ -197,6 +226,11 @@ class _AddMedicationEntryFormFieldState
 
   void addMedication(Medication medication) {
     _builder.medications.add(medication);
+    _changed();
+  }
+
+  void addPhoto(Photo photo) {
+    _builder.photos.add(photo);
     _changed();
   }
 
@@ -280,7 +314,9 @@ class _AddMedicationEntryFormFieldState
     );
   }
 
-  List<Widget> medicationWidgets() => _builder.medications
+  bool hasMedications() => _builder.medications.length != 0;
+
+  List<Widget> medicationWidgets({bool editable}) => _builder.medications
       .build()
       .toList()
       .map((medication) => Row(
@@ -294,19 +330,57 @@ class _AddMedicationEntryFormFieldState
                   child: MedicationCard(medication: medication),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: const Icon(Icons.delete_forever),
-                  onPressed: () {
-                    _builder.medications.remove(medication);
-                    _changed();
-                  },
+              if (editable)
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: const Icon(Icons.delete_forever),
+                    onPressed: () {
+                      _builder.medications.remove(medication);
+                      _changed();
+                    },
+                  ),
                 ),
-              ),
             ],
           ))
       .toList();
+
+  Widget photoWidgets(BuildContext context, {bool editable}) => Row(
+        children: [
+          ..._builder.photos
+              .build()
+              .toList()
+              .map(
+                (photo) => Column(
+                  children: [
+                    PhotoCard(
+                      photo: photo,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PhotoDetails(
+                              initialValue: photo,
+                              initiallyEditable: false,
+                              onPhotoChanged: (updatedPhoto) {
+                                _builder.photos.remove(photo);
+                                addPhoto(updatedPhoto);
+                              },
+                            ),
+                          )),
+                      deleteTap: editable
+                          ? () {
+                              _builder.medications.remove(photo);
+                              _changed();
+                            }
+                          : null,
+                    ),
+                  ],
+                ),
+              )
+              .toList(),
+          if (editable) AddPhoto(onPhotoTaken: addPhoto),
+        ],
+      );
 
   @override
   void dispose() {

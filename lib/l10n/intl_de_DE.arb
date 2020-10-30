@@ -15,10 +15,16 @@
   "addMedicamentNameInvalidValidation": "Bitte Medikamentenbezeichnung eingeben",
   "addMedicationEntryCommentsLabel": "Bemerkungen",
   "addMedicationEntryDurationLabel": "Dauer",
+  "addMedicationEntryPhotosLabel": "Bilder",
   "addMedicationEntryDurationTimePickerHelpText": "Dauer",
   "addMedicationEntryPickerConfirmText": "Übernehmen",
   "addMedicationEntryPickerCancelText": "Abbrechen",
   "addMedicationEntryViewTitle": "Neuer Eintrag",
+  "editMedicationEntryViewTitle": "Eintrag bearbeiten",
+  "medicationEntryViewTitle": "Eintrag",
+  "medicationEntryDeleteConfirmationMessage": "Wollen Sie den Eintrag löschen?",
+  "medicationEntryDeleteConfirmationLabel": "Ja",
+  "medicationEntryDeleteCancelLabel": "Abbrechen",
   "addMedicationEntryViewSubmitButton": "Übernehmen",
   "addMedicationEntryAddMedicationLabel": "Neue Medikation",
   "addMedicationEntryMedicationsLabel": "Medikationen",
@@ -39,5 +45,10 @@
   "addUserPickerConfirmText": "Übernehmen",
   "addUserPickerCancelText": "Abbrechen",
   "addUserDateLabel": "Datum",
-  "pdfBodyMass": "Gewicht"
+  "pdfBodyMass": "Gewicht",
+  "pictureDetailsTitle": "Bilddetails",
+  "takePictureDescriptionTitle": "Bilddetails ändern",
+  "takePictureDescriptionLabel": "Bitte Beschreibung eingeben",
+  "takePictureSubmitLabel": "Übernehmen",
+  "takePictureCancelLabel": "Abbrechen"
 }
