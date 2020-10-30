@@ -2,6 +2,7 @@ include: package:pedantic/analysis_options.yaml
 
 linter:
   rules:
+    - always_use_package_imports
     - always_declare_return_types
     - always_put_control_body_on_new_line
     - always_put_required_named_parameters_first

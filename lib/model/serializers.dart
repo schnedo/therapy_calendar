@@ -10,8 +10,7 @@ import 'package:therapy_calendar/model/entry/dose.dart';
 import 'package:therapy_calendar/model/entry/medicament.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
-
-import 'entry/photo.dart';
+import 'package:therapy_calendar/model/entry/photo.dart';
 
 part 'serializers.g.dart';
 
