@@ -8,7 +8,7 @@ import 'package:therapy_calendar/bloc/medication_entry_bloc.dart';
 import 'package:therapy_calendar/generated/l10n.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
 import 'package:therapy_calendar/pdf/pdf.dart';
-import 'package:therapy_calendar/views/add_medication_entry.dart';
+import 'package:therapy_calendar/views/medication_entry.dart';
 import 'package:therapy_calendar/widgets/main_drawer.dart';
 import 'package:therapy_calendar/widgets/medication_entry/card.dart';
 import 'package:tuple/tuple.dart';
@@ -78,6 +78,14 @@ class DayView extends StatelessWidget {
                       final cards = entriesInSameMonth
                           .map(
                             (entry) => GestureDetector(
+                              onTap: () => Navigator.push(
+                                ctx,
+                                MaterialPageRoute(
+                                  builder: (_) => AddMedicationEntry(
+                                    initialValue: entry,
+                                  ),
+                                ),
+                              ),
                               onLongPressStart: (details) =>
                                   longPressMenu(ctx, details, entry),
                               child: MedicationEntryCard(entry: entry),

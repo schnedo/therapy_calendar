@@ -10,6 +10,7 @@ import 'package:therapy_calendar/model/entry/dose.dart';
 import 'package:therapy_calendar/model/entry/medicament.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
 import 'package:therapy_calendar/model/entry/medication_entry.dart';
+import 'package:therapy_calendar/model/entry/photo.dart';
 
 part 'serializers.g.dart';
 
@@ -26,6 +27,7 @@ const _medicationEntryBuiltListType =
   TreatmentCenter,
   User,
   BodyMass,
+  Photo,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

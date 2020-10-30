@@ -3,6 +3,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:therapy_calendar/model/contact/body_mass.dart';
 import 'package:therapy_calendar/model/entry/medication.dart';
+import 'package:therapy_calendar/model/entry/photo.dart';
 
 part 'medication_entry.g.dart';
 
@@ -29,6 +30,8 @@ abstract class MedicationEntry
 
   BodyMass get bodyMass;
 
+  BuiltList<Photo> get photos;
+
   static Serializer<MedicationEntry> get serializer =>
       _$medicationEntrySerializer;
 }
@@ -49,4 +52,6 @@ abstract class MedicationEntryBuilder
   String comments;
 
   BodyMass bodyMass;
+
+  ListBuilder<Photo> photos;
 }
