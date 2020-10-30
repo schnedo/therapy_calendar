@@ -10,11 +10,13 @@ class PhotoDetails extends StatefulWidget {
   const PhotoDetails({
     @required this.initialValue,
     this.initiallyEditable = false,
-    this.onPhotoTaken,
+    this.onPhotoChanged,
+    this.onChangeCancel,
     Key key,
   }) : super(key: key);
 
-  final PhotoTakenCallback onPhotoTaken;
+  final PhotoTakenCallback onPhotoChanged;
+  final GestureTapCallback onChangeCancel;
   final Photo initialValue;
   final bool initiallyEditable;
 
@@ -26,8 +28,10 @@ class PhotoDetails extends StatefulWidget {
     properties
       ..add(DiagnosticsProperty<Photo>('initialValue', initialValue))
       ..add(ObjectFlagProperty<PhotoTakenCallback>.has(
-          'onPhotoTaken', onPhotoTaken))
-      ..add(DiagnosticsProperty<bool>('initiallyEditable', initiallyEditable));
+          'onPhotoChanged', onPhotoChanged))
+      ..add(DiagnosticsProperty<bool>('initiallyEditable', initiallyEditable))
+      ..add(ObjectFlagProperty<GestureTapCallback>.has(
+          'onChangeCancel', onChangeCancel));
   }
 }
 
@@ -43,15 +47,19 @@ class _PhotoDetailsState extends State<PhotoDetails> {
   void initState() {
     super.initState();
     _builder = widget.initialValue.toBuilder()..description ??= '';
-    _editable = widget.initiallyEditable && widget.onPhotoTaken != null;
+    _editable = widget.initiallyEditable && widget.onPhotoChanged != null;
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).takePictureDescriptionTitle),
+          title: Text(
+            _editable
+                ? S.of(context).takePictureDescriptionTitle
+                : S.of(context).pictureDetailsTitle,
+          ),
           actions: [
-            if (!_editable && widget.onPhotoTaken != null)
+            if (!_editable && widget.onPhotoChanged != null)
               IconButton(
                 onPressed: () {
                   setState(() {
@@ -87,7 +95,9 @@ class _PhotoDetailsState extends State<PhotoDetails> {
                       children: [
                         RaisedButton(
                           onPressed: () {
-                            _photoFile.delete();
+                            if (widget.onChangeCancel != null) {
+                              widget.onChangeCancel();
+                            }
 
                             Navigator.pop(context);
                           },
@@ -98,9 +108,8 @@ class _PhotoDetailsState extends State<PhotoDetails> {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 
-                              widget.onPhotoTaken(_builder.build());
+                              widget.onPhotoChanged(_builder.build());
 
-                              Navigator.pop(context);
                               Navigator.pop(context);
                             }
                           },

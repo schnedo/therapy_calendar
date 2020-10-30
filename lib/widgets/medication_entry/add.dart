@@ -361,8 +361,10 @@ class _AddMedicationEntryFormFieldState
                             builder: (context) => PhotoDetails(
                               initialValue: photo,
                               initiallyEditable: false,
-                              onPhotoTaken: (photo) =>
-                                  debugPrint(photo.toString()),
+                              onPhotoChanged: (updatedPhoto) {
+                                _builder.photos.remove(photo);
+                                addPhoto(updatedPhoto);
+                              },
                             ),
                           )),
                       deleteTap: editable
